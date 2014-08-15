@@ -60,7 +60,7 @@ public class CoverActivity extends Activity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_cover, container, false);
-            rootView.setOnClickListener(new View.OnClickListener() {
+            rootView.findViewById(R.id.sign_up_weibo_button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivity(), HomeActivity.class);

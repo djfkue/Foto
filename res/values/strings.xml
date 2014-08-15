@@ -2,9 +2,13 @@
 <resources>
 
     <string name="app_name">Foto</string>
+    <string name="app_logo">FOTO</string>
     <string name="title_activity_cover">CoverActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_home">HomeActivity</string>
 
+    <string name="sign_up_with_weibo">Connect With Weibo</string>
+    <string name="sign_in_with_email">Sign In with Email</string>
+    <string name="create_account">Create Account</string>
 </resources>

@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Foto</string>
-    <string name="app_logo">Fotografie</string>
+    <string name="app_logo">Foto</string>
     <string name="title_activity_cover">CoverActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

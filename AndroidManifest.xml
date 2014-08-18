@@ -23,6 +23,9 @@
             android:name=".home.HomeActivity"
             android:label="@string/title_activity_home" >
         </activity>
+        <activity
+            android:name=".ui.PhotographerHomePage" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="grey_blue">#1F3136</color>
+    <drawable name="photographer_actionbar_bg">@color/grey_blue</drawable>
+    <drawable name="photographer_action_bg_normal">#00000000</drawable>
+    <drawable name="photographer_action_bg_pressed">#7F000000</drawable>
+    <!--
+    <color name="spinner_background">#444444</color>
+    <drawable name="spinner_dropdown_background_normal">#444444</drawable>
+    -->
+</resources>

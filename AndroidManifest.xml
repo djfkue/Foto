@@ -24,6 +24,7 @@
             android:label="@string/title_activity_home" >
         </activity>
         <activity
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
             android:name=".ui.PhotographerHomePage" >
         </activity>
     </application>

@@ -7,8 +7,28 @@
     <ImageView
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="240dp"
         android:scaleType="centerCrop"
         android:src="@drawable/mock_andywilliams"
         android:contentDescription="@string/self_portrait_cd" />
+    <RelativeLayout
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/photographer_action_bar_bg" >
+        <ImageButton android:id="@+id/btn_back"
+            android:layout_alignParentLeft="true"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/navigation_back"
+            android:background="@drawable/photographer_action_bg"
+            android:contentDescription="@null" />
+        <ImageButton android:id="@+id/btn_share"
+            android:layout_alignParentRight="true"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/social_share"
+            android:background="@drawable/photographer_action_bg"
+            android:contentDescription="@null" />
+    </RelativeLayout>
 </RelativeLayout>

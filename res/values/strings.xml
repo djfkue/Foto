@@ -17,5 +17,5 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
 
-    <string name="self_portrait_cd">self portrait of photographer</string>
+    <string name="mock_photographer_name">Andy Williams</string>
 </resources>

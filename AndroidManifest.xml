@@ -25,7 +25,8 @@
         </activity>
         <activity
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"
-            android:name=".ui.PhotographerHomePage" >
+            android:name=".ui.PhotographerHomePage"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

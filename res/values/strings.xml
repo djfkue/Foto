@@ -16,5 +16,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
+    <string name="title_fotoitem_list">FotoItems</string>
+    <string name="title_fotoitem_detail">FotoItem Detail</string>
 
+    <string name="no_network_connection_toast">No network connection found</string>
 </resources>

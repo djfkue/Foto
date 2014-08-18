@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.os.Build;
 
 import com.argon.foto.R;
+import com.argon.foto.home.FotoItemListActivity;
 import com.argon.foto.home.HomeActivity;
 
 public class CoverActivity extends Activity {
@@ -63,7 +64,7 @@ public class CoverActivity extends Activity {
             rootView.findViewById(R.id.sign_up_weibo_button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    Intent intent = new Intent(getActivity(), FotoItemListActivity.class);
                     int orientation = getResources().getConfiguration().orientation;
 
                     startActivity(intent);

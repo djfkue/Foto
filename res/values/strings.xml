@@ -20,4 +20,5 @@
     <string name="title_fotoitem_detail">FotoItem Detail</string>
 
     <string name="no_network_connection_toast">No network connection found</string>
+    <string name="mock_photographer_name">Andy Williams</string>
 </resources>

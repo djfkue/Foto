@@ -39,6 +39,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.argon.foto.home.FotoItemListActivity" />
         </activity>
+        <activity
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
+            android:name=".ui.PhotographerHomePage"
+            android:label="@string/mock_photographer_name"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

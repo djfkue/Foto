@@ -33,6 +33,7 @@
             android:contentDescription="@null" />
     </RelativeLayout>
     <LinearLayout
+        android:id="@+id/name_and_follow"
         android:layout_below="@id/self_portrait"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -44,7 +45,6 @@
             android:layout_height="match_parent"
             android:textColor="@color/holo_light_grey"
             android:text="@string/mock_photographer_name"
-            android:typeface="serif"
             android:textSize="20sp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
@@ -56,4 +56,24 @@
             android:background="@drawable/photographer_action_bg"
             android:contentDescription="@null" />
     </LinearLayout>
+    <android.support.v4.app.FragmentTabHost
+        android:id="@android:id/tabhost"
+        android:layout_below="@id/name_and_follow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+            <TabWidget 
+                android:id="@android:id/tabs"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent" />
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </android.support.v4.app.FragmentTabHost>
 </RelativeLayout>

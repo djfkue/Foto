@@ -1,12 +1,13 @@
 package com.argon.foto.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTabHost;
 import android.view.View;
 
 import com.argon.foto.R;
 
-public class PhotographerHomePage extends Activity {
+public class PhotographerHomePage extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,5 +24,11 @@ public class PhotographerHomePage extends Activity {
                 // TODO: to be implemented
             }
         });
+
+        FragmentTabHost tabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
+        tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
+        tabHost.addTab(tabHost.newTabSpec("WORKS").setIndicator("WORKS"), WorksFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("PRICING").setIndicator("PRICING"), WorksFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("ABOUT").setIndicator("ABOUT"), WorksFragment.class, null);
     }
 }

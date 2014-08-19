@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.util.LruCache;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -160,6 +161,13 @@ public class FotoItemListFragment extends ListFragment {
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.foto_list_layout, container, false);
+        return rootView;
+    }
+
+    @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         super.onListItemClick(listView, view, position, id);
 
@@ -225,16 +233,17 @@ public class FotoItemListFragment extends ListFragment {
         @Override
         public View getView(int position, View convertView, ViewGroup container) {
             ImageView imageView;
+            ViewGroup itemView = (ViewGroup)convertView;
             if (convertView == null) { // if it's not recycled, initialize some attributes
-                imageView = new FotoImageView(mContext);
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setLayoutParams(new ListView.LayoutParams(
-                        AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT));
+                LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                itemView = (ViewGroup)inflater.inflate(R.layout.foto_list_item, container, false);
+                imageView = (ImageView)itemView.findViewById(R.id.foto_image);
             } else {
-                imageView = (ImageView) convertView;
+                imageView = (ImageView)itemView.findViewById(R.id.foto_image);
             }
+
             mImageFetcher.loadImage(Images.imageThumbUrls[position], imageView);
-            return imageView;
+            return itemView;
         }
     }
 }

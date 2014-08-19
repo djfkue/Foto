@@ -29,7 +29,8 @@
         </activity>
         <activity
             android:name=".home.FotoItemListActivity"
-            android:label="@string/title_fotoitem_list" >
+            android:label="@string/title_fotoitem_list"
+            android:theme="@style/FotoListTheme">
         </activity>
         <activity
             android:name=".home.FotoItemDetailActivity"

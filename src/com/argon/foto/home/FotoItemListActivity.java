@@ -3,6 +3,8 @@ package com.argon.foto.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.view.ViewManager;
+import android.view.WindowManager;
 
 import com.argon.foto.R;
 
@@ -34,6 +36,10 @@ public class FotoItemListActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getActionBar().setDisplayShowTitleEnabled(false);
+        getActionBar().setDisplayShowHomeEnabled(false);
+        getActionBar().setDisplayHomeAsUpEnabled(false);
         setContentView(R.layout.activity_fotoitem_list);
 
         if (findViewById(R.id.fotoitem_detail_container) != null) {

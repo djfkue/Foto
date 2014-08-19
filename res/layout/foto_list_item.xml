@@ -20,7 +20,7 @@
         android:layout_below="@id/foto_image"
         android:text="再見陳生-chihato"
         android:gravity="center"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="#333"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
         foo:customFont="NotoSansHantThin.otf"/>
 </RelativeLayout>

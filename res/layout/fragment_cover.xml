@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".cover.CoverActivity">
 
-    <com.flaviofaria.kenburnsview.KenBurnsView
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"

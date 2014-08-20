@@ -17,13 +17,11 @@
             android:name=".cover.CoverActivity"
             android:label="@string/title_activity_cover"
             android:theme="@style/CoverTheme" >
-            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            -->
         </activity>
         <activity
             android:name=".home.HomeActivity"
@@ -47,10 +45,12 @@
             android:name=".ui.PhotographerHomePage"
             android:label="@string/mock_photographer_name"
             android:screenOrientation="portrait" >
+            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            -->
         </activity>
     </application>
 

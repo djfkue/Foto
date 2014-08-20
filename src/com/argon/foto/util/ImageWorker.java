@@ -171,7 +171,7 @@ public abstract class ImageWorker {
     /**
      * @return The {@link ImageCache} object currently being used by this ImageWorker.
      */
-    protected ImageCache getImageCache() {
+    public ImageCache getImageCache() {
         return mImageCache;
     }
 

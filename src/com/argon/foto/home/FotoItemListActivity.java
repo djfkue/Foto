@@ -65,24 +65,6 @@ public class FotoItemListActivity extends Activity
      */
     @Override
     public void onItemSelected(String id) {
-        if (mTwoPane) {
-            // In two-pane mode, show the detail view in this activity by
-            // adding or replacing the detail fragment using a
-            // fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putString(FotoItemDetailFragment.ARG_ITEM_ID, id);
-            FotoItemDetailFragment fragment = new FotoItemDetailFragment();
-            fragment.setArguments(arguments);
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.fotoitem_detail_container, fragment)
-                    .commit();
 
-        } else {
-            // In single-pane mode, simply start the detail activity
-            // for the selected item ID.
-            Intent detailIntent = new Intent(this, FotoItemDetailActivity.class);
-            detailIntent.putExtra(FotoItemDetailFragment.ARG_ITEM_ID, id);
-            startActivity(detailIntent);
-        }
     }
 }

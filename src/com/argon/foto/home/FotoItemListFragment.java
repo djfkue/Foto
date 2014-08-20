@@ -215,6 +215,7 @@ public class FotoItemListFragment extends ListFragment {
 
         final Intent i = new Intent(getActivity(), FotoItemDetailActivity.class);
         i.putExtra(FotoItemDetailActivity.EXTRA_IMAGE, (int) id);
+        startActivity(i);
     }
 
     @Override

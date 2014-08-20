@@ -18,6 +18,9 @@ import com.argon.foto.R;
  */
 public class FotoItemDetailActivity extends Activity {
 
+    private static final String IMAGE_CACHE_DIR = "images";
+    public static final String EXTRA_IMAGE = "extra_image";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

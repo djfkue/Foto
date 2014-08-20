@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,6 +31,7 @@ import com.argon.foto.provider.Images;
 import com.argon.foto.util.ImageCache;
 import com.argon.foto.util.ImageFetcher;
 import com.argon.foto.util.ImageUtil;
+import com.argon.foto.util.Utils;
 import com.argon.foto.widget.FotoImageView;
 
 import java.io.File;
@@ -98,6 +100,7 @@ public class FotoItemListFragment extends ListFragment {
         }
     };
 
+    private ImageAdapter mImageAdatper;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -116,7 +119,8 @@ public class FotoItemListFragment extends ListFragment {
 //                android.R.layout.simple_list_item_activated_1,
 //                android.R.id.text1,
 //                DummyContent.ITEMS));
-        setListAdapter(new ImageAdapter(getActivity()));
+        mImageAdatper = new ImageAdapter(getActivity());
+        setListAdapter(mImageAdatper);
 
         ImageCache.ImageCacheParams cacheParams =
                 new ImageCache.ImageCacheParams(getActivity(), IMAGE_CACHE_DIR);
@@ -133,6 +137,23 @@ public class FotoItemListFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        getListView().setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
+                    if (!Utils.hasHoneycomb()) {
+                        mImageFetcher.setPauseWork(true);
+                    }
+                } else {
+                    mImageFetcher.setPauseWork(false);
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i2, int i3) {
+
+            }
+        });
         // Restore the previously serialized activated item position.
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
@@ -150,6 +171,27 @@ public class FotoItemListFragment extends ListFragment {
         }
 
         mCallbacks = (Callbacks) activity;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mImageFetcher.setExitTasksEarly(false);
+        mImageAdatper.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mImageFetcher.setPauseWork(false);
+        mImageFetcher.setExitTasksEarly(true);
+        mImageFetcher.flushCache();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mImageFetcher.closeCache();
     }
 
     @Override
@@ -171,9 +213,8 @@ public class FotoItemListFragment extends ListFragment {
     public void onListItemClick(ListView listView, View view, int position, long id) {
         super.onListItemClick(listView, view, position, id);
 
-        // Notify the active callbacks interface (the activity, if the
-        // fragment is attached to one) that an item has been selected.
-        // mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        final Intent i = new Intent(getActivity(), FotoItemDetailActivity.class);
+        i.putExtra(FotoItemDetailActivity.EXTRA_IMAGE, (int) id);
     }
 
     @Override

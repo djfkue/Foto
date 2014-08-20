@@ -28,7 +28,7 @@ public class PhotographerHomePage extends FragmentActivity {
         FragmentTabHost tabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
         tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
         tabHost.addTab(tabHost.newTabSpec("WORKS").setIndicator("WORKS"), WorksFragment.class, null);
-        tabHost.addTab(tabHost.newTabSpec("PRICING").setIndicator("PRICING"), WorksFragment.class, null);
-        tabHost.addTab(tabHost.newTabSpec("ABOUT").setIndicator("ABOUT"), WorksFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("PRICING").setIndicator("PRICING"), PricingFragment.class, null);
+        tabHost.addTab(tabHost.newTabSpec("ABOUT").setIndicator("ABOUT"), AboutFragment.class, null);
     }
 }

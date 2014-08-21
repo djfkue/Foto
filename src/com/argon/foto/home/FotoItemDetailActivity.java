@@ -67,8 +67,7 @@ public class FotoItemDetailActivity extends Activity implements View.OnClickList
         mFragmentContainer = (ViewGroup) findViewById(R.id.fotoitem_detail_container);
 
         // Set up activity to go full screen
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         // Enable some additional newer visibility and ActionBar features to create a more
         // immersive photo viewing experience

@@ -34,4 +34,9 @@
         <item name="android:background">@drawable/ab_foto_list_bg</item>"
     </style>
 
+    <style name="FotoDetailTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:actionBarStyle">@style/FotoListActionBar</item>
+    </style>
+
 </resources>

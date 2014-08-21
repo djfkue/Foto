@@ -35,7 +35,8 @@
         <activity
             android:name=".home.FotoItemDetailActivity"
             android:label="@string/title_fotoitem_detail"
-            android:parentActivityName=".home.FotoItemListActivity" >
+            android:parentActivityName=".home.FotoItemListActivity"
+            android:theme="@style/FotoDetailTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.argon.foto.home.FotoItemListActivity" />

@@ -137,13 +137,15 @@ public class FotoItemListFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        getListView().setDrawingCacheEnabled(false);
+
         getListView().setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
-                    if (!Utils.hasHoneycomb()) {
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING || scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    //if (!Utils.hasHoneycomb()) {
                         mImageFetcher.setPauseWork(true);
-                    }
+                    //}
                 } else {
                     mImageFetcher.setPauseWork(false);
                 }
@@ -277,15 +279,25 @@ public class FotoItemListFragment extends ListFragment {
             ImageView imageView;
             ViewGroup itemView = (ViewGroup)convertView;
             if (convertView == null) { // if it's not recycled, initialize some attributes
+                ViewHolder holder = new ViewHolder();
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 itemView = (ViewGroup)inflater.inflate(R.layout.foto_list_item, container, false);
                 imageView = (ImageView)itemView.findViewById(R.id.foto_image);
+                holder.photo = imageView;
+                itemView.setTag(holder);
             } else {
-                imageView = (ImageView)itemView.findViewById(R.id.foto_image);
+                //imageView = (ImageView)itemView.findViewById(R.id.foto_image);
+                imageView = ((ViewHolder)convertView.getTag()).photo;
             }
 
             mImageFetcher.loadImage(Images.imageThumbUrls[position], imageView);
+            //imageView.setImageResource(R.drawable.mock_andywilliams);
             return itemView;
+        }
+
+        class ViewHolder {
+            ImageView photo;
+            int position;
         }
     }
 }

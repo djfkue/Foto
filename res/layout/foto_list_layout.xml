@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:hapticFeedbackEnabled="false"
-    android:divider="@android:color/transparent"
+    android:animationCache="true"
+    android:scrollingCache="true"
     android:requiresFadingEdge="none"
-    android:dividerHeight="8dp"
     android:scrollbars="none"
     />

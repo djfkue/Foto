@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.argon.foto.R;
 
@@ -37,8 +38,11 @@ public class WorksFragment extends Fragment {
             if (convertView == null) {
                 convertView = getActivity().getLayoutInflater().inflate(R.layout.works_album_cover, parent, false);
             }
-            ImageView cover = (ImageView) convertView;
+            ImageView cover = (ImageView) convertView.findViewById(R.id.cover);
             cover.setImageResource(mWorksDataSet.get(pos));
+
+            TextView picCount = (TextView) convertView.findViewById(R.id.pic_count);
+            picCount.setText("12");
             return convertView;
         }
     };

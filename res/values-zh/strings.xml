@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">浮影</string>
-    <string name="app_logo">浮 影</string>
+    <string name="app_name">菲林</string>
+    <string name="app_logo">菲 林</string>
     <string name="title_activity_cover">CoverActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

@@ -22,4 +22,6 @@
     <string name="no_network_connection_toast">No network connection found</string>
     <string name="mock_photographer_name">Andy Williams</string>
     <string name="mock_photographer_location">Shanghai Pudong</string>
+    <string name="mock_follow_btn_follow">FOLLOW</string>
+    <string name="mock_follow_btn_unfollow">UNFOLLOW</string>
 </resources>

@@ -2,6 +2,7 @@
 <resources>
     <color name="grey_blue">#1F3136</color>
     <color name="holo_light_grey">#807F7F</color>
+    <color name="feeling_orange">#E76049</color>
     <drawable name="photographer_actionbar_bg">@color/grey_blue</drawable>
     <drawable name="photographer_action_bg_normal">#00000000</drawable>
     <drawable name="photographer_action_bg_pressed">#7F000000</drawable>

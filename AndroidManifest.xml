@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="15"
+        android:minSdkVersion="16"
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -43,7 +43,7 @@
                 android:value="com.argon.foto.home.FotoItemListActivity" />
         </activity>
         <activity
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
+            android:theme="@style/PhotographerHomeTheme"
             android:name=".ui.PhotographerHomePage"
             android:screenOrientation="portrait" >
             <!--

@@ -4,7 +4,7 @@
     android:name="com.argon.foto.home.FotoItemListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="#CCC"
     android:hapticFeedbackEnabled="false"
     android:animationCache="true"
     android:scrollingCache="true"

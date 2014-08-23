@@ -16,9 +16,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.util.LruCache;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -119,8 +122,6 @@ public class FotoItemListFragment extends ListFragment {
 //                android.R.layout.simple_list_item_activated_1,
 //                android.R.id.text1,
 //                DummyContent.ITEMS));
-        mImageAdatper = new ImageAdapter(getActivity());
-        setListAdapter(mImageAdatper);
 
         ImageCache.ImageCacheParams cacheParams =
                 new ImageCache.ImageCacheParams(getActivity(), IMAGE_CACHE_DIR);
@@ -137,15 +138,32 @@ public class FotoItemListFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Calculate ActionBar height
+        TypedValue tv = new TypedValue();
+        int mActionBarHeight = 0;
+        if (getActivity().getTheme().resolveAttribute(
+                android.R.attr.actionBarSize, tv, true)) {
+            mActionBarHeight = TypedValue.complexToDimensionPixelSize(
+                    tv.data, getResources().getDisplayMetrics());
+        }
+        View headerHolder = new View(getActivity());
+        headerHolder.setLayoutParams(new AbsListView.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, mActionBarHeight));
+
+        getListView().addHeaderView(headerHolder);
+
+        mImageAdatper = new ImageAdapter(getActivity());
+        setListAdapter(mImageAdatper);
+
         getListView().setDrawingCacheEnabled(false);
 
         getListView().setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING || scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-                    //if (!Utils.hasHoneycomb()) {
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
+                    if (!Utils.hasHoneycomb()) {
                         mImageFetcher.setPauseWork(true);
-                    //}
+                    }
                 } else {
                     mImageFetcher.setPauseWork(false);
                 }
@@ -208,6 +226,7 @@ public class FotoItemListFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.foto_list_layout, container, false);
+
         return rootView;
     }
 
@@ -217,7 +236,11 @@ public class FotoItemListFragment extends ListFragment {
 
         final Intent i = new Intent(getActivity(), FotoItemDetailActivity.class);
         i.putExtra(FotoItemDetailActivity.EXTRA_IMAGE, (int) id);
-        startActivity(i);
+        getActivity().startActivityForResult(i, FotoItemListActivity.CURRENT_FOTO);
+
+        // Override transitions: we don't want the normal window animation in addition
+        // to our custom one
+        getActivity().overridePendingTransition(0, 0);
     }
 
     @Override
@@ -254,6 +277,8 @@ public class FotoItemListFragment extends ListFragment {
     private class ImageAdapter extends BaseAdapter {
         private final Context mContext;
 
+        private int mLastPosition = -1;
+
         public ImageAdapter(Context context) {
             super();
             mContext = context;
@@ -288,10 +313,26 @@ public class FotoItemListFragment extends ListFragment {
             } else {
                 //imageView = (ImageView)itemView.findViewById(R.id.foto_image);
                 imageView = ((ViewHolder)convertView.getTag()).photo;
+                convertView.clearAnimation();
             }
 
             mImageFetcher.loadImage(Images.imageThumbUrls[position], imageView);
             //imageView.setImageResource(R.drawable.mock_andywilliams);
+
+            // animate the item
+            TranslateAnimation animation = null;
+            if (position > mLastPosition) {
+                animation = new TranslateAnimation(
+                        Animation.RELATIVE_TO_SELF,
+                        0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+                        Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.0f);
+
+                animation.setDuration(600);
+                itemView.startAnimation(animation);
+            }
+
+            mLastPosition = position;
             return itemView;
         }
 

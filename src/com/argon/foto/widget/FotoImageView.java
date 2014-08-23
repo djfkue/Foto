@@ -79,8 +79,8 @@ public class FotoImageView extends ImageView {
         float ratio = ((float)getDrawable().getIntrinsicHeight()) / getDrawable().getIntrinsicWidth();
 
         int width = MeasureSpec.getSize(widthMeasureSpec);
-        if (ratio >= 1.2f) {
-            ratio = 1.2f;
+        if (ratio >= 1.414f) {
+            ratio = 1.414f;
         }
         int height = (int) (width * ratio);
         setMeasuredDimension(width, height);

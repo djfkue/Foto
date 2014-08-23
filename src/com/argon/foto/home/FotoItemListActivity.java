@@ -3,6 +3,7 @@ package com.argon.foto.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.ViewManager;
 import android.view.WindowManager;
 
@@ -27,6 +28,8 @@ import com.argon.foto.R;
 public class FotoItemListActivity extends Activity
         implements FotoItemListFragment.Callbacks {
 
+    public static final int CURRENT_FOTO = 0x01;
+    public static final String EXTRA_CURRENT_FOTO = "EXTRA_CURRENT_FOTO";
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -59,6 +62,24 @@ public class FotoItemListActivity extends Activity
         // TODO: If exposing deep links into your app, handle intents here.
     }
 
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.e("SD_TRACE", "-------------------------------");
+        if (requestCode == CURRENT_FOTO) {
+            final int currentFoto = data.getIntExtra(EXTRA_CURRENT_FOTO, 0);
+            Log.e("SD_TRACE", "current photo: " + currentFoto);
+            ((FotoItemListFragment) getFragmentManager()
+                    .findFragmentById(R.id.fotoitem_list)).getListView().post(new Runnable() {
+                @Override
+                public void run() {
+                    ((FotoItemListFragment) getFragmentManager()
+                            .findFragmentById(R.id.fotoitem_list)).getListView().setSelection(currentFoto + 1);
+                }
+            });
+        }
+    }
     /**
      * Callback method from {@link FotoItemListFragment.Callbacks}
      * indicating that the item with the given ID was selected.

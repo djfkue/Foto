@@ -1,9 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@android:id/background" >
+    android:layout_height="wrap_content" >
     <ImageView
-        android:id="@+id/self_portrait"
+        android:id="@android:id/background"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -12,7 +11,7 @@
         android:contentDescription="@null" />
     <RelativeLayout
         android:id="@+id/name_and_follow"
-        android:layout_below="@id/self_portrait"
+        android:layout_below="@android:id/background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"

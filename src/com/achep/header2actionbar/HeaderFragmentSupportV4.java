@@ -214,7 +214,7 @@ public abstract class HeaderFragmentSupportV4 extends Fragment {
         if (mHeaderScroll == (mHeaderScroll = scrollTo) & !forceChange) return;
 
         setViewTranslationY(mHeader, scrollTo);
-        setViewTranslationY(mHeaderHeader, -scrollTo);
+        setViewTranslationY(mHeaderHeader, scrollTo);
 
         switch (mHeaderBackgroundScrollMode) {
             case HEADER_BACKGROUND_SCROLL_NORMAL:

@@ -3,31 +3,46 @@ package com.argon.foto.ui;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.achep.header2actionbar.HeaderFragmentSupportV4;
 import com.argon.foto.R;
 
 public class PhotographerHomeFragment extends HeaderFragmentSupportV4 {
+    private final static String TAG = "PhotographerHomeFragment";
+    private TextView mNameOnActionBar;
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
+        mNameOnActionBar = (TextView) activity.getActionBar().getCustomView().findViewById(R.id.name);
         setHeaderBackgroundScrollMode(HEADER_BACKGROUND_SCROLL_NORMAL);
         setOnHeaderScrollChangedListener(new OnHeaderScrollChangedListener() {
             @Override
             public void onHeaderScrollChanged(float progress, int height, int scroll) {
-                height -= getActivity().getActionBar().getHeight();
+                int actionBarHeight = getActivity().getActionBar().getHeight();
+                height -= actionBarHeight;
 
                 progress = (float) scroll / height;
                 if (progress > 1f) progress = 1f;
 
                 progress = (1 - (float) Math.cos(progress * Math.PI)) * 0.5f;
+                int alphaOfActionbarBg = (int) (255 * progress);
                 ((PhotographerHomePage) getActivity())
                         .getFadingActionBarHelper()
-                        .setActionBarAlpha((int) (255 * progress));
+                        .setActionBarAlpha(alphaOfActionbarBg);
+
+                int remainScrollSpace = height - scroll;
+                Log.i(TAG, "scroll:" + scroll + "height:" + height + ", remain:" + remainScrollSpace);
+                if((remainScrollSpace >=0) && (remainScrollSpace <= actionBarHeight)) {
+                    float nameAlphaProgress = (float)(actionBarHeight - remainScrollSpace) / actionBarHeight;
+                    Log.i(TAG, "nameAlphaProgress:" + nameAlphaProgress);
+                    mNameOnActionBar.setAlpha(nameAlphaProgress);
+                }
             }
         });
     }

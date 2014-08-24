@@ -28,13 +28,6 @@ public class PhotographerHomePage extends FragmentActivity {
                     .add(R.id.container, new PhotographerHomeFragment())
                     .commit();
         }
-        /*
-        FragmentTabHost tabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
-        tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
-        tabHost.addTab(tabHost.newTabSpec("WORKS").setIndicator("WORKS"), WorksFragment.class, null);
-        tabHost.addTab(tabHost.newTabSpec("PRICING").setIndicator("PRICING"), PricingFragment.class, null);
-        tabHost.addTab(tabHost.newTabSpec("ABOUT").setIndicator("ABOUT"), AboutFragment.class, null);
-        */
     }
 
     @SuppressLint("InflateParams")
@@ -42,7 +35,7 @@ public class PhotographerHomePage extends FragmentActivity {
         // setup action bar
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
-        View v = getLayoutInflater().inflate(R.layout.custom_action_bar, null);
+        View v = getLayoutInflater().inflate(R.layout.photo_grapher_home_custom_action_bar, null);
         ActionBar.LayoutParams layout = new ActionBar.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         actionBar.setCustomView(v, layout);
 

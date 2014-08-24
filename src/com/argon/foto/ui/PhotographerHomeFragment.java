@@ -15,6 +15,7 @@ import com.argon.foto.R;
 public class PhotographerHomeFragment extends HeaderFragmentSupportV4 {
     private final static String TAG = "PhotographerHomeFragment";
     private TextView mNameOnActionBar;
+    private View mNameGroupOnHeader;
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -36,14 +37,18 @@ public class PhotographerHomeFragment extends HeaderFragmentSupportV4 {
                         .getFadingActionBarHelper()
                         .setActionBarAlpha(alphaOfActionbarBg);
 
+                int nameGroupHeight = mNameGroupOnHeader.getHeight();
                 int remainScrollSpace = height - scroll;
                 Log.i(TAG, "scroll:" + scroll + "height:" + height + ", remain:" + remainScrollSpace);
-                if((remainScrollSpace >=0) && (remainScrollSpace <= actionBarHeight)) {
-                    float nameAlphaProgress = (float)(actionBarHeight - remainScrollSpace) / actionBarHeight;
+                if((remainScrollSpace >=0) && (remainScrollSpace <= nameGroupHeight)) {
+                    float nameAlphaProgress = (float)(nameGroupHeight - remainScrollSpace) / nameGroupHeight;
                     Log.i(TAG, "nameAlphaProgress:" + nameAlphaProgress);
+                    nameAlphaProgress = (1 - (float) Math.cos(nameAlphaProgress * Math.PI)) * 0.5f;
                     mNameOnActionBar.setAlpha(nameAlphaProgress);
+                    mNameGroupOnHeader.setAlpha(1 - nameAlphaProgress);
                 } else {
                     mNameOnActionBar.setAlpha(0);
+                    mNameGroupOnHeader.setAlpha(1);
                 }
             }
         });
@@ -71,7 +76,9 @@ public class PhotographerHomeFragment extends HeaderFragmentSupportV4 {
 
     @Override
     public View onCreateHeaderView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.photographer_home_header, container, false);
+        View headerView = inflater.inflate(R.layout.photographer_home_header, container, false);
+        mNameGroupOnHeader = headerView.findViewById(R.id.name_and_follow);
+        return headerView;
     }
 
 }

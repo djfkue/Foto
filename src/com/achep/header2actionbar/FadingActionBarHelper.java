@@ -83,7 +83,6 @@ public class FadingActionBarHelper {
      * @see #getActionBarAlpha()
      */
     public void setActionBarAlpha(int alpha) {
-        Log.i(TAG, "alpha:" + alpha + ", isAlphaLocked:" + isAlphaLocked);
         if (mDrawable == null) {
             Log.w(TAG, "Set action bar background before setting the alpha level!");
             return;

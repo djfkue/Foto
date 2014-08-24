@@ -15,7 +15,7 @@ public class PhotographerHomeFragment extends HeaderFragmentSupportV4 {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        setHeaderBackgroundScrollMode(HEADER_BACKGROUND_SCROLL_PARALLAX);
+        setHeaderBackgroundScrollMode(HEADER_BACKGROUND_SCROLL_NORMAL);
         setOnHeaderScrollChangedListener(new OnHeaderScrollChangedListener() {
             @Override
             public void onHeaderScrollChanged(float progress, int height, int scroll) {

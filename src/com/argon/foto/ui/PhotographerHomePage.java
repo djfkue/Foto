@@ -21,7 +21,7 @@ public class PhotographerHomePage extends FragmentActivity {
         setupActionbar();
 
         mFadingActionBarHelper = new FadingActionBarHelper(getActionBar(),
-                getResources().getDrawable(R.drawable.photographer_action_bar_bg));
+                getResources().getDrawable(R.drawable.actionbar_bg));
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()

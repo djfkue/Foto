@@ -60,5 +60,5 @@
         android:layout_width="wrap_content"
         android:layout_height="?android:actionBarSize"
         android:layout_alignParentTop="true"
-        android:background="@drawable/photographer_action_bar_bg" />
+        android:background="@drawable/fake_action_bar_bg_gradient" />
 </RelativeLayout>

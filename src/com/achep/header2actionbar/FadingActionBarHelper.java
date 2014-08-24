@@ -16,6 +16,7 @@
 
 package com.achep.header2actionbar;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -24,6 +25,7 @@ import android.util.Log;
 /**
  * Created by AChep@xda <artemchep@gmail.com>
  */
+@SuppressLint("NewApi")
 public class FadingActionBarHelper {
 
     private static final String TAG = "FadingActionBarHelper";
@@ -81,6 +83,7 @@ public class FadingActionBarHelper {
      * @see #getActionBarAlpha()
      */
     public void setActionBarAlpha(int alpha) {
+        Log.i(TAG, "alpha:" + alpha + ", isAlphaLocked:" + isAlphaLocked);
         if (mDrawable == null) {
             Log.w(TAG, "Set action bar background before setting the alpha level!");
             return;

@@ -42,6 +42,8 @@ public class PhotographerHomeFragment extends HeaderFragmentSupportV4 {
                     float nameAlphaProgress = (float)(actionBarHeight - remainScrollSpace) / actionBarHeight;
                     Log.i(TAG, "nameAlphaProgress:" + nameAlphaProgress);
                     mNameOnActionBar.setAlpha(nameAlphaProgress);
+                } else {
+                    mNameOnActionBar.setAlpha(0);
                 }
             }
         });

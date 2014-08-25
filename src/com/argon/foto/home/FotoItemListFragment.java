@@ -61,15 +61,6 @@ public class FotoItemListFragment extends ListFragment {
 
     private static final String IMAGE_CACHE_DIR = "thumbs";
 
-    public final static Integer[] imageResIds = new Integer[] {
-            R.drawable.sample_01, R.drawable.sample_02, R.drawable.sample_03,
-            R.drawable.sample_04, R.drawable.sample_05, R.drawable.sample_06,
-            R.drawable.sample_07, R.drawable.sample_08, R.drawable.sample_09,
-            R.drawable.sample_11, R.drawable.sample_12, R.drawable.sample_13,
-            R.drawable.sample_14, R.drawable.sample_15, R.drawable.sample_16,
-            R.drawable.sample_17, R.drawable.sample_18};
-
-
     private ImageFetcher mImageFetcher;
 
     /**
@@ -135,7 +126,7 @@ public class FotoItemListFragment extends ListFragment {
         cacheParams.setMemCacheSizePercent(0.25f); // Set memory cache to 25% of app memory
 
         // The ImageFetcher takes care of loading images into our ImageView children asynchronously
-        mImageFetcher = new ImageFetcher(getActivity(), 720);
+        mImageFetcher = new ImageFetcher(getActivity(), 800);
         //mImageFetcher.setLoadingImage(R.drawable.empty_photo);
         mImageFetcher.addImageCache(getActivity().getFragmentManager(), cacheParams);
     }
@@ -261,7 +252,6 @@ public class FotoItemListFragment extends ListFragment {
 
         final Intent i = new Intent(getActivity(), FotoItemDetailActivity.class);
         i.putExtra(FotoItemDetailActivity.EXTRA_IMAGE, (int) id);
-<<<<<<< HEAD
 
         int[] screenLocation = new int[2];
         view.getLocationOnScreen(screenLocation);
@@ -277,14 +267,7 @@ public class FotoItemListFragment extends ListFragment {
 
         // Override transitions: we don't want the normal window animation in addition
         // to our custom one
-        // getActivity().overridePendingTransition(0, 0);
-=======
-        getActivity().startActivityForResult(i, FotoItemListActivity.CURRENT_FOTO);
-
-        // Override transitions: we don't want the normal window animation in addition
-        // to our custom one
         getActivity().overridePendingTransition(0, 0);
->>>>>>> 98c877a689d35dc572aa72dab298084519081d1c
     }
 
     @Override

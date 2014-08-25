@@ -78,14 +78,7 @@ public class FotoItemDetailFragment extends Fragment {
 
         mImageView = (ImageView) rootView.findViewById(R.id.imageView);
         mImageFetcher = ((FotoItemDetailActivity) getActivity()).getImageFetcher();
-        mImageView.setImageBitmap(mImageFetcher.getImageCache().getBitmapFromDiskCache(mImageUrl));
-        return rootView;
-    }
 
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         rootView.findViewById(R.id.foto_grapher).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,7 +90,7 @@ public class FotoItemDetailFragment extends Fragment {
         // cache can be used over all pages in the ViewPager
         if (FotoItemDetailActivity.class.isInstance(getActivity())) {
             mImageFetcher = ((FotoItemDetailActivity) getActivity()).getImageFetcher();
-            mImageFetcher.setImageFadeIn(true);
+
             //mImageView.setImageBitmap(mImageFetcher.getImageCache().getBitmapFromDiskCache(mThumbUrl));
             Log.e("SD_TRACE", "loadImage... ... ... mImageUrl: " + mImageUrl);
             mImageFetcher.setImageFadeIn(true);

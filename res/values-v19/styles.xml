@@ -16,7 +16,7 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
-    <style name="FotoListTheme" parent="android:Theme.Holo">
+    <style name="FotoListTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="android:actionBarStyle">@style/FotoListActionBar</item>
         <item name="android:windowTranslucentNavigation">false</item>
@@ -25,7 +25,9 @@
 
     <style name="FotoDetailTheme" parent="android:Theme.Holo">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <item name="android:actionBarStyle">@style/FotoListActionBar</item>
+        <item name="android:actionBarStyle">@style/FotoDetailActionBar</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowTranslucentStatus">true</item>
     </style>

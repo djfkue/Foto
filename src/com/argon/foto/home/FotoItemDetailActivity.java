@@ -65,7 +65,7 @@ public class FotoItemDetailActivity extends Activity implements View.OnClickList
         // The ImageFetcher takes care of loading images into our ImageView children asynchronously
         mImageFetcher = new ImageFetcher(this, longest);
         mImageFetcher.addImageCache(getFragmentManager(), cacheParams);
-        mImageFetcher.setImageFadeIn(false);
+        mImageFetcher.setImageFadeIn(true);
 
         mFragmentContainer = (ViewGroup) findViewById(R.id.fotoitem_detail_container);
 
@@ -80,6 +80,8 @@ public class FotoItemDetailActivity extends Activity implements View.OnClickList
             // Hide title text and set home as up
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayUseLogoEnabled(false);
+            actionBar.setDisplayShowHomeEnabled(false);
 
             // Hide and show the ActionBar as the visibility changes
             mFragmentContainer.setOnSystemUiVisibilityChangeListener(
@@ -95,8 +97,8 @@ public class FotoItemDetailActivity extends Activity implements View.OnClickList
                     });
 
             // Start low profile mode and hide ActionBar
-            mFragmentContainer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-            actionBar.hide();
+            //mFragmentContainer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+            //actionBar.hide();
         }
 
         // Retrieve the data we need for the picture/description to display and
@@ -123,7 +125,7 @@ public class FotoItemDetailActivity extends Activity implements View.OnClickList
             final int extraCurrentItem = getIntent().getIntExtra(EXTRA_IMAGE, -1);
             Bundle arguments = new Bundle();
 
-            FotoItemDetailFragment fragment = FotoItemDetailFragment.newInstance(Images.imageThumbUrls[extraCurrentItem]);
+            FotoItemDetailFragment fragment = FotoItemDetailFragment.newInstance(Images.imageUrls[extraCurrentItem], Images.imageThumbUrls[extraCurrentItem]);
             getFragmentManager().beginTransaction()
                     .add(R.id.fotoitem_detail_container, fragment)
                     .commit();

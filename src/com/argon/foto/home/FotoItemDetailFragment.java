@@ -1,7 +1,8 @@
 package com.argon.foto.home;
 
-import android.os.Bundle;
 import android.app.Fragment;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.argon.foto.R;
 
 import com.argon.foto.home.dummy.DummyContent;
+import com.argon.foto.ui.PhotographerHomePage;
 import com.argon.foto.util.ImageFetcher;
 import com.argon.foto.util.ImageWorker;
 import com.argon.foto.util.Utils;
@@ -25,7 +27,9 @@ import com.argon.foto.util.Utils;
 public class FotoItemDetailFragment extends Fragment {
 
     private static final String IMAGE_DATA_EXTRA = "extra_image_data";
+    private static final String IMAGE_THUMB_DATA_EXTRA = "extra_thumb_image_data";
     private String mImageUrl;
+    private String mThumbUrl;
     private ImageView mImageView;
     private ImageFetcher mImageFetcher;
 
@@ -35,12 +39,13 @@ public class FotoItemDetailFragment extends Fragment {
      * @param imageUrl The image url to load
      * @return A new instance of ImageDetailFragment with imageNum extras
      */
-    public static FotoItemDetailFragment newInstance(String imageUrl) {
+    public static FotoItemDetailFragment newInstance(String imageUrl, String thumbUrl) {
         final FotoItemDetailFragment f = new FotoItemDetailFragment();
 
         Log.e("SD_TRACE", "newInstance... ... ... imageUrl: " + imageUrl);
         final Bundle args = new Bundle();
         args.putString(IMAGE_DATA_EXTRA, imageUrl);
+        args.putString(IMAGE_THUMB_DATA_EXTRA, thumbUrl);
         f.setArguments(args);
 
         return f;
@@ -63,6 +68,7 @@ public class FotoItemDetailFragment extends Fragment {
             Log.e("SD_TRACE", "getImageUrl: " + getArguments().getString(IMAGE_DATA_EXTRA));
         }
         mImageUrl = getArguments() != null ? getArguments().getString(IMAGE_DATA_EXTRA) : null;
+        mThumbUrl = getArguments() != null ? getArguments().getString(IMAGE_THUMB_DATA_EXTRA) : null;
     }
 
     @Override
@@ -80,11 +86,19 @@ public class FotoItemDetailFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        rootView.findViewById(R.id.foto_grapher).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), PhotographerHomePage.class));
+            }
+        });
 
         // Use the parent activity to load the image asynchronously into the ImageView (so a single
         // cache can be used over all pages in the ViewPager
         if (FotoItemDetailActivity.class.isInstance(getActivity())) {
             mImageFetcher = ((FotoItemDetailActivity) getActivity()).getImageFetcher();
+            mImageFetcher.setImageFadeIn(true);
+            //mImageView.setImageBitmap(mImageFetcher.getImageCache().getBitmapFromDiskCache(mThumbUrl));
             Log.e("SD_TRACE", "loadImage... ... ... mImageUrl: " + mImageUrl);
             mImageFetcher.setImageFadeIn(true);
             mImageFetcher.loadImage(mImageUrl, mImageView);
@@ -94,7 +108,6 @@ public class FotoItemDetailFragment extends Fragment {
         if (View.OnClickListener.class.isInstance(getActivity()) && Utils.hasHoneycomb()) {
             mImageView.setOnClickListener((View.OnClickListener) getActivity());
         }
-
         if (savedInstanceState == null) {
             ViewTreeObserver observer = mImageView.getViewTreeObserver();
             observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -112,6 +125,13 @@ public class FotoItemDetailFragment extends Fragment {
                 }
             });
         }
+        return rootView;
+    }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override

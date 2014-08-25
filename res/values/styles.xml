@@ -36,7 +36,27 @@
 
     <style name="FotoDetailTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <item name="android:actionBarStyle">@style/FotoListActionBar</item>
+        <item name="android:actionBarStyle">@style/FotoDetailActionBar</item>
+    </style>
+
+    <style name="FotoDetailActionBar" parent="android:Widget.Holo.ActionBar">
+        <item name="android:background">@drawable/foto_list_item_header_bg</item>"
+    </style>
+
+    <style name="ActionBarStyle.Transparent.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TransprentGradientActionBar" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:background">@null</item>
+        <item name="android:titleTextStyle">@style/ActionBarStyle.Transparent.TitleTextStyle</item>
+        <item name="android:displayOptions">useLogo</item>
+    </style>
+
+    <style name="PhotographerHomeTheme" parent="android:Theme.Holo.Light">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:actionBarStyle">@style/TransprentGradientActionBar</item>
     </style>
 
 </resources>

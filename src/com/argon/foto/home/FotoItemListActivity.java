@@ -3,6 +3,7 @@ package com.argon.foto.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.ViewManager;
@@ -27,7 +28,7 @@ import com.argon.foto.R;
  * to listen for item selections.
  */
 public class FotoItemListActivity extends Activity
-        implements FotoItemListFragment.Callbacks {
+        implements FotoItemListFragment.Callbacks, NavigationDrawerFragment.NavigationDrawerCallbacks{
 
     public static final int CURRENT_FOTO = 0x01;
     public static final String EXTRA_CURRENT_FOTO = "EXTRA_CURRENT_FOTO";
@@ -36,6 +37,8 @@ public class FotoItemListActivity extends Activity
      * device.
      */
     private boolean mTwoPane;
+
+    private NavigationDrawerFragment mNavigationDrawerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,13 @@ public class FotoItemListActivity extends Activity
                     .setActivateOnItemClick(true);
         }
 
+        mNavigationDrawerFragment = (NavigationDrawerFragment)
+                getFragmentManager().findFragmentById(R.id.navigation_drawer);
+
+        // Set up the drawer.
+        mNavigationDrawerFragment.setUp(
+                R.id.navigation_drawer,
+                (DrawerLayout) findViewById(R.id.drawer_layout));
         // TODO: If exposing deep links into your app, handle intents here.
     }
 
@@ -88,6 +98,11 @@ public class FotoItemListActivity extends Activity
      */
     @Override
     public void onItemSelected(String id) {
+
+    }
+
+    @Override
+    public void onNavigationDrawerItemSelected(int position) {
 
     }
 }

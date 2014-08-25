@@ -1,8 +1,21 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fotoitem_list"
-    android:name="com.argon.foto.home.FotoItemListFragment"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.argon.foto.home.FotoItemListActivity"
-    tools:layout="@layout/foto_list_layout" />
+    android:layout_height="match_parent">
+    <fragment
+        android:id="@+id/fotoitem_list"
+        android:name="com.argon.foto.home.FotoItemListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.argon.foto.home.FotoItemListActivity"
+        tools:layout="@layout/foto_list_layout" />
+    <fragment android:id="@+id/navigation_drawer"
+        android:layout_width="304dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:name="com.argon.foto.home.NavigationDrawerFragment"
+        tools:layout="@layout/fragment_navigation_drawer" />
+</android.support.v4.widget.DrawerLayout>

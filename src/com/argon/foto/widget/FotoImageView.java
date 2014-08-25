@@ -1,27 +1,39 @@
 package com.argon.foto.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.argon.foto.R;
 import com.argon.foto.util.RecyclingBitmapDrawable;
 
 /**
  * Created by argon on 14-8-14.
  */
 public class FotoImageView extends ImageView {
+
+    private float mDefaultRatio;
+    private float mMaxRatio;
+
     public FotoImageView(Context context) {
         super(context);
     }
 
     public FotoImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FotoImageView);
+        mDefaultRatio = a.getFloat(R.styleable.FotoImageView_ratio, -1.0f);
+        mMaxRatio = a.getFloat(R.styleable.FotoImageView_maxRatio, -1.0f);
     }
 
     public FotoImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FotoImageView);
+        mDefaultRatio = a.getFloat(R.styleable.FotoImageView_ratio, -1.0f);
+        mMaxRatio = a.getFloat(R.styleable.FotoImageView_maxRatio, -1.0f);
     }
 
 
@@ -76,16 +88,20 @@ public class FotoImageView extends ImageView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
-        float ratio = 1.0f;
+        if (mDefaultRatio <= 0) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+            return;
+        }
+
         if (getDrawable() != null) {
-            ratio = ((float) getDrawable().getIntrinsicHeight()) / getDrawable().getIntrinsicWidth();
+            mDefaultRatio = ((float) getDrawable().getIntrinsicHeight()) / getDrawable().getIntrinsicWidth();
         }
 
         int width = MeasureSpec.getSize(widthMeasureSpec);
-        if (ratio >= 1.414f) {
-            ratio = 1.414f;
+        if (mMaxRatio > 0 && mDefaultRatio >= mMaxRatio) {
+            mDefaultRatio = mMaxRatio;
         }
-        int height = (int) (width * ratio);
+        int height = (int) (width * mDefaultRatio);
         setMeasuredDimension(width, height);
     }
 }

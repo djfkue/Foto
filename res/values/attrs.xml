@@ -3,4 +3,9 @@
     <declare-styleable name="FotoTextView">
         <attr name="customFont" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="FotoImageView">
+        <attr name="ratio" format="float"/>
+        <attr name="maxRatio" format="float"/>
+    </declare-styleable>
 </resources>

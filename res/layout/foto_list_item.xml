@@ -12,7 +12,9 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="#CCCCCC"
-        android:background="#CCCCCC"/>
+        android:background="#CCCCCC"
+        foo:ratio="1.0"
+        foo:maxRatio="1.4"/>
 
     <com.argon.foto.widget.FotoTextView
         android:id="@+id/foto_grapher_name"

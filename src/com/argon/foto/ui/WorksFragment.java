@@ -45,7 +45,6 @@ public class WorksFragment extends Fragment {
                 convertView = getActivity().getLayoutInflater().inflate(R.layout.works_album_cover, parent, false);
             }
             ImageView cover = (ImageView) convertView.findViewById(R.id.cover);
-            cover.setImageResource(mWorksDataSet.get(pos));
             mImageFetcher.loadImage(mWorksDataSet.get(pos), cover);
 
             TextView picCount = (TextView) convertView.findViewById(R.id.pic_count);

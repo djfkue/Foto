@@ -81,6 +81,10 @@ public class FotoItemListFragment extends ListFragment {
      */
     private int mActivatedPosition = ListView.INVALID_POSITION;
 
+    private int mLastFirstVisibleItem;
+    private int mLastFistVisibleItemTop;
+    private boolean mIsScrollingUp;
+
     /**
      * A callback interface that all activities containing this fragment must
      * implement. This mechanism allows activities to be notified of item
@@ -130,7 +134,7 @@ public class FotoItemListFragment extends ListFragment {
 
         // The ImageFetcher takes care of loading images into our ImageView children asynchronously
         mImageFetcher = new ImageFetcher(getActivity(), 720);
-        mImageFetcher.setLoadingImage(R.drawable.empty_photo);
+        //mImageFetcher.setLoadingImage(R.drawable.empty_photo);
         mImageFetcher.addImageCache(getActivity().getFragmentManager(), cacheParams);
     }
 
@@ -170,8 +174,27 @@ public class FotoItemListFragment extends ListFragment {
             }
 
             @Override
-            public void onScroll(AbsListView absListView, int i, int i2, int i3) {
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                final int currentFirstVisibleItem = view.getFirstVisiblePosition();
 
+                if (currentFirstVisibleItem > mLastFirstVisibleItem) {
+                    mIsScrollingUp = false;
+                    getActivity().getActionBar().hide();
+                } else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
+                    mIsScrollingUp = true;
+                    getActivity().getActionBar().show();
+                } else {
+                    View firstItemView = view.getChildAt(0);
+                    int currentFirstVisibleItemTop = (view == null) ? 0 : view.getTop();
+                    if (currentFirstVisibleItemTop > mLastFistVisibleItemTop) {
+                        getActivity().getActionBar().show();
+                    } else {
+                        getActivity().getActionBar().hide();
+                    }
+                }
+
+                mLastFistVisibleItemTop = currentFirstVisibleItem;
+                mLastFirstVisibleItem = currentFirstVisibleItem;
             }
         });
         // Restore the previously serialized activated item position.
@@ -325,7 +348,7 @@ public class FotoItemListFragment extends ListFragment {
                 animation = new TranslateAnimation(
                         Animation.RELATIVE_TO_SELF,
                         0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
-                        Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.3f,
                         Animation.RELATIVE_TO_SELF, 0.0f);
 
                 animation.setDuration(600);

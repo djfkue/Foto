@@ -179,6 +179,7 @@ public abstract class HeaderFragmentSupportV4 extends Fragment {
             final NotifyingScrollView scrollView = new NotifyingScrollView(activity);
             scrollView.addView(view);
             scrollView.setVerticalScrollBarEnabled(false);
+            scrollView.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
             scrollView.setOnScrollChangedListener(new NotifyingScrollView.OnScrollChangedListener() {
                 @Override
                 public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {

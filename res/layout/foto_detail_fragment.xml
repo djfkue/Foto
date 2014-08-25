@@ -15,7 +15,8 @@
   limitations under the License.
 -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:foo="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@android:color/black">
@@ -32,4 +33,28 @@
         android:layout_height="fill_parent"
         android:contentDescription="@string/app_name" />
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/foto_detail_name_bg"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+        <com.argon.foto.widget.FotoTextView
+            android:id="@+id/foto_grapher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="再見陳生-chihato"
+            android:textSize="30sp"
+            android:textColor="@android:color/white"
+            android:shadowColor="@android:color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="0.5"
+            foo:customFont="NotoSansHantThin.otf"/>
+    </LinearLayout>
+
+</RelativeLayout>

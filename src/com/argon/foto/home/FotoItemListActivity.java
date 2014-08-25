@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.ViewManager;
 import android.view.WindowManager;
 
@@ -67,7 +68,7 @@ public class FotoItemListActivity extends Activity
         super.onActivityResult(requestCode, resultCode, data);
 
         Log.e("SD_TRACE", "-------------------------------");
-        if (requestCode == CURRENT_FOTO) {
+        if (requestCode == CURRENT_FOTO && data != null) {
             final int currentFoto = data.getIntExtra(EXTRA_CURRENT_FOTO, 0);
             Log.e("SD_TRACE", "current photo: " + currentFoto);
             ((FotoItemListFragment) getFragmentManager()
@@ -76,6 +77,7 @@ public class FotoItemListActivity extends Activity
                 public void run() {
                     ((FotoItemListFragment) getFragmentManager()
                             .findFragmentById(R.id.fotoitem_list)).getListView().setSelection(currentFoto + 1);
+                    getActionBar().hide();
                 }
             });
         }

@@ -5,11 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
@@ -33,14 +28,13 @@ import com.argon.foto.util.Utils;
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link FotoItemDetailFragment}.
  */
-public class FotoItemDetailActivity extends FragmentActivity implements View.OnClickListener {
+public class FotoItemDetailActivity extends Activity implements View.OnClickListener {
 
     private static final String IMAGE_CACHE_DIR = "images";
     public static final String EXTRA_IMAGE = "extra_image";
 
     private ImageFetcher mImageFetcher;
-    private ImagePagerAdapter mAdapter;
-    private ViewPager mPager;
+    private ViewGroup mFragmentContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +64,7 @@ public class FotoItemDetailActivity extends FragmentActivity implements View.OnC
         mImageFetcher.addImageCache(getFragmentManager(), cacheParams);
         mImageFetcher.setImageFadeIn(true);
 
-        // Set up ViewPager and backing adapter
-        mAdapter = new ImagePagerAdapter(getSupportFragmentManager(), Images.imageUrls.length);
-        mPager = (ViewPager) findViewById(R.id.pager);
-        mPager.setAdapter(mAdapter);
-        mPager.setPageMargin((int) getResources().getDimension(R.dimen.activity_horizontal_margin));
-        mPager.setOffscreenPageLimit(2);
+        mFragmentContainer = (ViewGroup) findViewById(R.id.fotoitem_detail_container);
 
         // Set up activity to go full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -92,7 +81,7 @@ public class FotoItemDetailActivity extends FragmentActivity implements View.OnC
             actionBar.setDisplayShowHomeEnabled(false);
 
             // Hide and show the ActionBar as the visibility changes
-            mPager.setOnSystemUiVisibilityChangeListener(
+            mFragmentContainer.setOnSystemUiVisibilityChangeListener(
                     new View.OnSystemUiVisibilityChangeListener() {
                         @Override
                         public void onSystemUiVisibilityChange(int vis) {
@@ -109,9 +98,25 @@ public class FotoItemDetailActivity extends FragmentActivity implements View.OnC
             //actionBar.hide();
         }
 
-        final int extraCurrentItem = getIntent().getIntExtra(EXTRA_IMAGE, -1);
-        if (extraCurrentItem != -1) {
-            mPager.setCurrentItem(extraCurrentItem);
+        // savedInstanceState is non-null when there is fragment state
+        // saved from previous configurations of this activity
+        // (e.g. when rotating the screen from portrait to landscape).
+        // In this case, the fragment will automatically be re-added
+        // to its container so we don't need to manually add it.
+        // For more information, see the Fragments API guide at:
+        //
+        // http://developer.android.com/guide/components/fragments.html
+        //
+        if (savedInstanceState == null) {
+            // Create the detail fragment and add it to the activity
+            // using a fragment transaction.
+            final int extraCurrentItem = getIntent().getIntExtra(EXTRA_IMAGE, -1);
+            Bundle arguments = new Bundle();
+
+            FotoItemDetailFragment fragment = FotoItemDetailFragment.newInstance(Images.imageUrls[extraCurrentItem], Images.imageThumbUrls[extraCurrentItem]);
+            getFragmentManager().beginTransaction()
+                    .add(R.id.fotoitem_detail_container, fragment)
+                    .commit();
         }
     }
 
@@ -159,45 +164,12 @@ public class FotoItemDetailActivity extends FragmentActivity implements View.OnC
     }
 
     @Override
-    public void onBackPressed() {
-        Log.e("SD_TRACE", "call me call me call me");
-        Intent intent = new Intent();
-        intent.putExtra(FotoItemListActivity.EXTRA_CURRENT_FOTO, mPager.getCurrentItem());
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-    @Override
     public void onClick(View view) {
-        final int vis = mPager.getSystemUiVisibility();
+        final int vis = mFragmentContainer.getSystemUiVisibility();
         if ((vis & View.SYSTEM_UI_FLAG_LOW_PROFILE) != 0) {
-            mPager.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+            mFragmentContainer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
         } else {
-            mPager.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-        }
-    }
-
-    /**
-     * The main adapter that backs the ViewPager. A subclass of FragmentStatePagerAdapter as there
-     * could be a large number of items in the ViewPager and we don't want to retain them all in
-     * memory at once but create/destroy them on the fly.
-     */
-    private class ImagePagerAdapter extends FragmentStatePagerAdapter {
-        private final int mSize;
-
-        public ImagePagerAdapter(FragmentManager fm, int size) {
-            super(fm);
-            mSize = size;
-        }
-
-        @Override
-        public int getCount() {
-            return mSize;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return FotoItemDetailFragment.newInstance(Images.imageUrls[position]);
+            mFragmentContainer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
         }
     }
 }

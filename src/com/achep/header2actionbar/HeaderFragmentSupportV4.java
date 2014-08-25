@@ -66,6 +66,7 @@ public abstract class HeaderFragmentSupportV4 extends Fragment {
     private View mHeaderHeader;
     private View mHeaderBackground;
     private View mContentView;
+    private ScrollView mContentWrapper;
     private int mHeaderHeight;
     private int mHeaderScroll;
 
@@ -105,12 +106,10 @@ public abstract class HeaderFragmentSupportV4 extends Fragment {
         mHeaderHeight = mHeader.getMeasuredHeight();
 
         mFakeHeader = new Space(activity);
-        mFakeHeader.setLayoutParams(
-                new ListView.LayoutParams(0, mHeaderHeight));
 
         View content = onCreateContentView(inflater, mFrameLayout);
         mContentView = content;
-        Log.i(TAG, "container:" + container.getMeasuredHeight());
+        Log.i(TAG, "container:" + container.getMeasuredHeight() + ",mHeaderHeight=" + mHeaderHeight);
 
         final View topContentView = container;
         topContentView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -139,6 +138,8 @@ public abstract class HeaderFragmentSupportV4 extends Fragment {
             isListViewEmpty = true;
 
             final ListView listView = (ListView) content;
+            mFakeHeader.setLayoutParams(
+                    new ListView.LayoutParams(0, mHeaderHeight));
             listView.addHeaderView(mFakeHeader);
             listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
@@ -169,18 +170,23 @@ public abstract class HeaderFragmentSupportV4 extends Fragment {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
             view.setOrientation(LinearLayout.VERTICAL);
+            mFakeHeader.setLayoutParams(
+                    new LinearLayout.LayoutParams(0, mHeaderHeight));
             view.addView(mFakeHeader);
             view.addView(content);
 
             // Put merged content to ScrollView
             final NotifyingScrollView scrollView = new NotifyingScrollView(activity);
             scrollView.addView(view);
+            scrollView.setVerticalScrollBarEnabled(false);
             scrollView.setOnScrollChangedListener(new NotifyingScrollView.OnScrollChangedListener() {
                 @Override
                 public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
+                    Log.i(TAG, "onScrollChanged scroll ot -t :" + (-t));
                     scrollHeaderTo(-t);
                 }
             });
+            mContentWrapper = scrollView;
             content = scrollView;
         }
 
@@ -198,6 +204,9 @@ public abstract class HeaderFragmentSupportV4 extends Fragment {
         mFrameLayout.post(new Runnable() {
             @Override
             public void run() {
+                Log.i(TAG, "post initial scroll to 0");
+                // SEAN: walk around for scroll position bug
+                mContentWrapper.scrollTo(0, 0);
                 scrollHeaderTo(0, true);
             }
         });
@@ -210,6 +219,7 @@ public abstract class HeaderFragmentSupportV4 extends Fragment {
     }
 
     private void scrollHeaderTo(int scrollTo, boolean forceChange) {
+        Log.i(TAG, "scrollTo:" + scrollTo + ",forceChange:" + forceChange);
         scrollTo = Math.min(Math.max(scrollTo, -mHeaderHeight), 0);
         if (mHeaderScroll == (mHeaderScroll = scrollTo) & !forceChange) return;
 

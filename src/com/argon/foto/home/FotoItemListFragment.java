@@ -54,6 +54,8 @@ public class FotoItemListFragment extends ListFragment {
      */
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
 
+    private static final String PACKAGE = "com.argon.foto.home";
+
     private static final String IMAGE_CACHE_DIR = "thumbs";
 
     public final static Integer[] imageResIds = new Integer[] {
@@ -217,7 +219,22 @@ public class FotoItemListFragment extends ListFragment {
 
         final Intent i = new Intent(getActivity(), FotoItemDetailActivity.class);
         i.putExtra(FotoItemDetailActivity.EXTRA_IMAGE, (int) id);
+
+        int[] screenLocation = new int[2];
+        view.getLocationOnScreen(screenLocation);
+        int orientation = getResources().getConfiguration().orientation;
+
+        i.putExtra(PACKAGE + ".orientation", orientation).
+                putExtra(PACKAGE + ".left", screenLocation[0]).
+                putExtra(PACKAGE + ".top", screenLocation[1]).
+                putExtra(PACKAGE + ".width", view.getWidth()).
+                putExtra(PACKAGE + ".height", view.getHeight());
+
         startActivity(i);
+
+        // Override transitions: we don't want the normal window animation in addition
+        // to our custom one
+        // getActivity().overridePendingTransition(0, 0);
     }
 
     @Override

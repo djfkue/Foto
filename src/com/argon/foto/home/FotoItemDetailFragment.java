@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.argon.foto.R;
@@ -70,7 +71,8 @@ public class FotoItemDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.foto_detail_fragment, container, false);
 
         mImageView = (ImageView) rootView.findViewById(R.id.imageView);
-
+        mImageFetcher = ((FotoItemDetailActivity) getActivity()).getImageFetcher();
+        mImageView.setImageBitmap(mImageFetcher.getImageCache().getBitmapFromDiskCache(mImageUrl));
         return rootView;
     }
 
@@ -84,12 +86,31 @@ public class FotoItemDetailFragment extends Fragment {
         if (FotoItemDetailActivity.class.isInstance(getActivity())) {
             mImageFetcher = ((FotoItemDetailActivity) getActivity()).getImageFetcher();
             Log.e("SD_TRACE", "loadImage... ... ... mImageUrl: " + mImageUrl);
+            mImageFetcher.setImageFadeIn(true);
             mImageFetcher.loadImage(mImageUrl, mImageView);
         }
 
         // Pass clicks on the ImageView to the parent activity to handle
         if (View.OnClickListener.class.isInstance(getActivity()) && Utils.hasHoneycomb()) {
             mImageView.setOnClickListener((View.OnClickListener) getActivity());
+        }
+
+        if (savedInstanceState == null) {
+            ViewTreeObserver observer = mImageView.getViewTreeObserver();
+            observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
+
+                    int[] screenLocation = new int[2];
+                    mImageView.getLocationOnScreen(screenLocation);
+
+                    Log.e("SD_TRACE", "screenLocation: " + screenLocation[0] + ", " + screenLocation[1]);
+                    Log.e("SD_TRACE", "screenHeight: " + mImageView.getHeight());
+
+                    return true;
+                }
+            });
         }
     }
 

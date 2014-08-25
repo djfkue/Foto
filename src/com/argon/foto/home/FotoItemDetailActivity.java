@@ -2,6 +2,7 @@ package com.argon.foto.home;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.app.Activity;
 
@@ -32,6 +33,8 @@ public class FotoItemDetailActivity extends Activity implements View.OnClickList
 
     private static final String IMAGE_CACHE_DIR = "images";
     public static final String EXTRA_IMAGE = "extra_image";
+
+    private static final String PACKAGE_NAME = "com.argon.foto.home";
 
     private ImageFetcher mImageFetcher;
     private ViewGroup mFragmentContainer;
@@ -95,6 +98,15 @@ public class FotoItemDetailActivity extends Activity implements View.OnClickList
             mFragmentContainer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
             actionBar.hide();
         }
+
+        // Retrieve the data we need for the picture/description to display and
+        // the thumbnail to animate it from
+        Bundle bundle = getIntent().getExtras();
+        String description = bundle.getString(PACKAGE_NAME + ".description");
+        final int thumbnailTop = bundle.getInt(PACKAGE_NAME + ".top");
+        final int thumbnailLeft = bundle.getInt(PACKAGE_NAME + ".left");
+        final int thumbnailWidth = bundle.getInt(PACKAGE_NAME + ".width");
+        final int thumbnailHeight = bundle.getInt(PACKAGE_NAME + ".height");
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity

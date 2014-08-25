@@ -40,19 +40,13 @@
             android:paddingRight="8dp"
             android:drawableLeft="@drawable/location_icon_32x32"
             android:gravity="center_vertical" />
-        <CheckedTextView android:id="@+id/btn_follow"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
+        <ImageButton android:id="@+id/btn_follow"
+            android:layout_width="?android:actionBarSize"
+            android:layout_height="?android:actionBarSize"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:textSize="14sp"
-            android:gravity="center"
-            android:clickable="true"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:text="@string/mock_follow_btn_follow"
-            android:background="@drawable/btn_bg"
-            android:textColor="@android:color/white"
+            android:src="@drawable/follow"
+            android:background="@drawable/photographer_action_bg"
             android:contentDescription="@null" />
     </RelativeLayout>
     <View

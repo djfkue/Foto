@@ -282,7 +282,12 @@ public abstract class ImageWorker {
             // process method (as implemented by a subclass)
             if (bitmap == null && !isCancelled() && getAttachedImageView() != null
                     && !mExitTasksEarly) {
-                bitmap = processBitmap(mData);
+                // Modification from SEAN: support load image from resource, just for demo
+                if(mData instanceof Integer) {
+                    bitmap = BitmapFactory.decodeResource(mResources, (Integer)mData);
+                } else {
+                    bitmap = processBitmap(mData);
+                }
             }
 
             // If the bitmap was processed and the image cache is available, then add the processed

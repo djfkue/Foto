@@ -19,21 +19,54 @@
     xmlns:foo="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black">
+    android:background="#333333">
 
-    <com.argon.foto.widget.FotoImageView
+    <com.argon.foto.widget.RecyclingImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:scaleType="centerCrop"
-        foo:ratio="1"
         android:contentDescription="@string/app_name"/>
+
     <LinearLayout
+        android:id="@+id/action_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_alignParentBottom="true"
+        android:background="#C000"
+        android:orientation="horizontal"
+        android:weightSum="1.0">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="0.3"
+            android:gravity="center"
+            android:text="info"
+            android:textAppearance="@android:style/TextAppearance.Holo.Small"
+            android:textColor="@android:color/darker_gray"/>
+        <com.argon.foto.widget.FotoTextView
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="0.4"
+            android:gravity="center"
+            android:text="share"
+            android:textAppearance="@android:style/TextAppearance.Holo.Small"
+            android:textColor="@android:color/darker_gray"/>
+        <com.argon.foto.widget.FotoTextView
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="0.3"
+            android:gravity="center"
+            android:text="favorite"
+            android:textAppearance="@android:style/TextAppearance.Holo.Small"
+            android:textColor="@android:color/darker_gray"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/foto_info_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/action_container"
+        android:orientation="vertical"
         android:background="@drawable/foto_detail_name_bg"
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
@@ -50,9 +83,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:background="@android:color/darker_gray"/>
-    </LinearLayout>
 
+    </LinearLayout>
 </RelativeLayout>

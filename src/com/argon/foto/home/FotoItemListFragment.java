@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.LruCache;
 import android.util.TypedValue;
@@ -60,6 +61,7 @@ public class FotoItemListFragment extends ListFragment {
     private static final String PACKAGE = "com.argon.foto.home";
 
     private static final String IMAGE_CACHE_DIR = "thumbs";
+    public static final int FOTO_ITEM_POSITION = 0x01;
 
     private ImageFetcher mImageFetcher;
 
@@ -125,8 +127,15 @@ public class FotoItemListFragment extends ListFragment {
 
         cacheParams.setMemCacheSizePercent(0.25f); // Set memory cache to 25% of app memory
 
+        final DisplayMetrics displayMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        final int height = displayMetrics.heightPixels;
+        final int width = displayMetrics.widthPixels;
+
+        final int longest = height > width ? height : width;
+
         // The ImageFetcher takes care of loading images into our ImageView children asynchronously
-        mImageFetcher = new ImageFetcher(getActivity(), 800);
+        mImageFetcher = new ImageFetcher(getActivity(), longest);
         //mImageFetcher.setLoadingImage(R.drawable.empty_photo);
         mImageFetcher.addImageCache(getActivity().getFragmentManager(), cacheParams);
     }
@@ -263,7 +272,7 @@ public class FotoItemListFragment extends ListFragment {
                 putExtra(PACKAGE + ".width", view.getWidth()).
                 putExtra(PACKAGE + ".height", view.getHeight());
 
-        startActivity(i);
+        getActivity().startActivityForResult(i, FotoItemListActivity.CURRENT_FOTO);
 
         // Override transitions: we don't want the normal window animation in addition
         // to our custom one

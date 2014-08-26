@@ -87,7 +87,6 @@ public class FotoItemListActivity extends Activity
                 public void run() {
                     ((FotoItemListFragment) getFragmentManager()
                             .findFragmentById(R.id.fotoitem_list)).getListView().setSelection(currentFoto + 1);
-                    getActionBar().hide();
                 }
             });
         }

@@ -141,6 +141,8 @@ public class NavigationDrawerFragment extends Fragment {
                     return;
                 }
 
+                getActionBar().show();
+
                 if (!mUserLearnedDrawer) {
                     // The user manually opened the drawer; store this flag to prevent auto-showing
                     // the navigation drawer automatically in the future.

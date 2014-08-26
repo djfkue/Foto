@@ -40,6 +40,7 @@ public class FotoItemListActivity extends Activity
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
+    private int mActionBarHeight;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +71,14 @@ public class FotoItemListActivity extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-        // TODO: If exposing deep links into your app, handle intents here.
+
+
+        TypedValue tv = new TypedValue();
+        if (getTheme().resolveAttribute(
+                android.R.attr.actionBarSize, tv, true)) {
+            mActionBarHeight = TypedValue.complexToDimensionPixelSize(
+                    tv.data, getResources().getDisplayMetrics());
+        }
     }
 
     @Override
@@ -87,6 +95,7 @@ public class FotoItemListActivity extends Activity
                 public void run() {
                     ((FotoItemListFragment) getFragmentManager()
                             .findFragmentById(R.id.fotoitem_list)).getListView().setSelection(currentFoto + 1);
+                    getActionBar().hide();
                 }
             });
         }

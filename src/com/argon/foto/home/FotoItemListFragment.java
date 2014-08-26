@@ -177,26 +177,21 @@ public class FotoItemListFragment extends ListFragment {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                final int currentFirstVisibleItem = view.getFirstVisiblePosition();
+                // TODO Auto-generated method stub
+                final ListView lw = getListView();
 
-                if (currentFirstVisibleItem > mLastFirstVisibleItem) {
-                    mIsScrollingUp = false;
-                    getActivity().getActionBar().hide();
-                } else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
-                    mIsScrollingUp = true;
-                    getActivity().getActionBar().show();
-                } else {
-                    View firstItemView = view.getChildAt(0);
-                    int currentFirstVisibleItemTop = (view == null) ? 0 : view.getTop();
-                    if (currentFirstVisibleItemTop > mLastFistVisibleItemTop) {
-                        getActivity().getActionBar().show();
-                    } else {
+                if (view.getId() == lw.getId()) {
+                    final int currentFirstVisibleItem = lw.getFirstVisiblePosition();
+                    if (currentFirstVisibleItem > mLastFirstVisibleItem) {
+                        mIsScrollingUp = false;
                         getActivity().getActionBar().hide();
+                    } else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
+                        mIsScrollingUp = true;
+                        getActivity().getActionBar().show();
                     }
-                }
 
-                mLastFistVisibleItemTop = currentFirstVisibleItem;
-                mLastFirstVisibleItem = currentFirstVisibleItem;
+                    mLastFirstVisibleItem = currentFirstVisibleItem;
+                }
             }
         });
         // Restore the previously serialized activated item position.

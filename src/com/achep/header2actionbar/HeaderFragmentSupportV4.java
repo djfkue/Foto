@@ -127,9 +127,10 @@ public abstract class HeaderFragmentSupportV4 extends Fragment {
                 if (getActivity().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
                     actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
                 }
-                Log.i(TAG, "topContentView:" + topContentView.getHeight() + ", actionBarHeight:" + actionBarHeight);
+                Log.i(TAG, "topContentView:" + topContentView.getHeight() + ", actionBarHeight:" + actionBarHeight +
+                        ", getStatusBarHeight:" + getStatusBarHeight());
                 ViewGroup.LayoutParams lp = mContentView.getLayoutParams();
-                lp.height = topContentView.getHeight() - actionBarHeight;
+                lp.height = topContentView.getHeight() - actionBarHeight - getStatusBarHeight();
                 mContentView.setLayoutParams(lp);
             }
         });
@@ -302,6 +303,15 @@ public abstract class HeaderFragmentSupportV4 extends Fragment {
 
     public int getHeaderBackgroundScrollMode() {
         return mHeaderBackgroundScrollMode;
+    }
+
+    public int getStatusBarHeight() { 
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        } 
+        return result;
     }
 
 }

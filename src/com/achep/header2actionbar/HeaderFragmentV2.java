@@ -17,14 +17,12 @@
 package com.achep.header2actionbar;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -50,9 +48,9 @@ import android.widget.Space;
 //  It was    {-` _.-'}
 //  amazing!   `":=:"`
 //              `---`
-public abstract class HeaderFragmentSupportV4 extends Fragment {
+public abstract class HeaderFragmentV2 extends Fragment {
 
-    private static final String TAG = "HeaderFragmentSupportV4";
+    private static final String TAG = "HeaderFragmentV2";
 
     public static final int HEADER_BACKGROUND_SCROLL_NORMAL = 0;
     public static final int HEADER_BACKGROUND_SCROLL_PARALLAX = 1;
@@ -65,8 +63,6 @@ public abstract class HeaderFragmentSupportV4 extends Fragment {
     private View mHeader;
     private View mHeaderHeader;
     private View mHeaderBackground;
-    private View mContentView;
-    private ScrollView mContentWrapper;
     private int mHeaderHeight;
     private int mHeaderScroll;
 
@@ -104,21 +100,18 @@ public abstract class HeaderFragmentSupportV4 extends Fragment {
         mHeader.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
         mHeaderHeight = mHeader.getMeasuredHeight();
+        //mHeaderHeight = mHeader.getLayoutParams().height;
+        Log.i(TAG, "mHeaderHeight=" + mHeaderHeight);
 
         mFakeHeader = new Space(activity);
+        mFakeHeader.setLayoutParams(
+                new ListView.LayoutParams(0, mHeaderHeight));
 
         View content = onCreateContentView(inflater, mFrameLayout);
-        mContentView = content;
-        Log.i(TAG, "container:" + container.getMeasuredHeight() + ",mHeaderHeight=" + mHeaderHeight);
-
-        final View topContentView = container;
-
         if (content instanceof ListView) {
             isListViewEmpty = true;
 
             final ListView listView = (ListView) content;
-            mFakeHeader.setLayoutParams(
-                    new ListView.LayoutParams(0, mHeaderHeight));
             listView.addHeaderView(mFakeHeader);
             listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
@@ -142,28 +135,6 @@ public abstract class HeaderFragmentSupportV4 extends Fragment {
                 }
             });
         } else {
-            topContentView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @SuppressWarnings("deprecation")
-                @Override
-                public void onGlobalLayout() {
-                    //Remove it here unless you want to get this callback for EVERY
-                    //layout pass, which can get you into infinite loops if you ever
-                    //modify the layout from within this method.
-                    topContentView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-
-                    //Now you can get the width and height from content
-                    int actionBarHeight = 0;
-                    TypedValue tv = new TypedValue();
-                    if (getActivity().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-                        actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
-                    }
-                    Log.i(TAG, "topContentView:" + topContentView.getHeight() + ", actionBarHeight:" + actionBarHeight +
-                            ", getStatusBarHeight:" + getStatusBarHeight());
-                    ViewGroup.LayoutParams lp = mContentView.getLayoutParams();
-                    lp.height = topContentView.getHeight() - actionBarHeight - getStatusBarHeight();
-                    mContentView.setLayoutParams(lp);
-                }
-            });
 
             // Merge fake header view and content view.
             final LinearLayout view = new LinearLayout(activity);
@@ -171,24 +142,18 @@ public abstract class HeaderFragmentSupportV4 extends Fragment {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
             view.setOrientation(LinearLayout.VERTICAL);
-            mFakeHeader.setLayoutParams(
-                    new LinearLayout.LayoutParams(0, mHeaderHeight));
             view.addView(mFakeHeader);
             view.addView(content);
 
             // Put merged content to ScrollView
             final NotifyingScrollView scrollView = new NotifyingScrollView(activity);
             scrollView.addView(view);
-            scrollView.setVerticalScrollBarEnabled(false);
-            scrollView.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
             scrollView.setOnScrollChangedListener(new NotifyingScrollView.OnScrollChangedListener() {
                 @Override
                 public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
-                    Log.i(TAG, "onScrollChanged scroll ot -t :" + (-t));
                     scrollHeaderTo(-t);
                 }
             });
-            mContentWrapper = scrollView;
             content = scrollView;
         }
 
@@ -206,11 +171,6 @@ public abstract class HeaderFragmentSupportV4 extends Fragment {
         mFrameLayout.post(new Runnable() {
             @Override
             public void run() {
-                Log.i(TAG, "post initial scroll to 0");
-                // SEAN: walk around for scroll position bug
-                if(mContentWrapper != null) {
-                    mContentWrapper.scrollTo(0, 0);
-                }
                 scrollHeaderTo(0, true);
             }
         });
@@ -223,13 +183,13 @@ public abstract class HeaderFragmentSupportV4 extends Fragment {
     }
 
     private void scrollHeaderTo(int scrollTo, boolean forceChange) {
-        Log.i(TAG, "scrollTo:" + scrollTo + ",forceChange:" + forceChange);
         scrollTo = Math.min(Math.max(scrollTo, -mHeaderHeight), 0);
         if (mHeaderScroll == (mHeaderScroll = scrollTo) & !forceChange) return;
 
         setViewTranslationY(mHeader, scrollTo);
-        setViewTranslationY(mHeaderHeader, scrollTo);
+        setViewTranslationY(mHeaderHeader, -scrollTo);
 
+        /*
         switch (mHeaderBackgroundScrollMode) {
             case HEADER_BACKGROUND_SCROLL_NORMAL:
                 setViewTranslationY(mHeaderBackground, 0);
@@ -240,7 +200,7 @@ public abstract class HeaderFragmentSupportV4 extends Fragment {
             case HEADER_BACKGROUND_SCROLL_STATIC:
                 setViewTranslationY(mHeaderBackground, -scrollTo);
                 break;
-        }
+        }*/
 
         if (mContentOverlay != null) {
             final ViewGroup.LayoutParams lp = mContentOverlay.getLayoutParams();
@@ -305,15 +265,6 @@ public abstract class HeaderFragmentSupportV4 extends Fragment {
 
     public int getHeaderBackgroundScrollMode() {
         return mHeaderBackgroundScrollMode;
-    }
-
-    public int getStatusBarHeight() { 
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        } 
-        return result;
     }
 
 }

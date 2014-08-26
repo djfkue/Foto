@@ -20,38 +20,42 @@ public class PhotographerHomeFragment extends HeaderFragmentSupportV4 {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        mNameOnActionBar = (TextView) activity.getActionBar().getCustomView().findViewById(R.id.name);
-        setHeaderBackgroundScrollMode(HEADER_BACKGROUND_SCROLL_NORMAL);
-        setOnHeaderScrollChangedListener(new OnHeaderScrollChangedListener() {
-            @Override
-            public void onHeaderScrollChanged(float progress, int height, int scroll) {
-                int actionBarHeight = getActivity().getActionBar().getHeight();
-                height -= actionBarHeight;
+        try {
+            mNameOnActionBar = (TextView) activity.getActionBar().getCustomView().findViewById(R.id.name);
+            setHeaderBackgroundScrollMode(HEADER_BACKGROUND_SCROLL_NORMAL);
+            setOnHeaderScrollChangedListener(new OnHeaderScrollChangedListener() {
+                @Override
+                public void onHeaderScrollChanged(float progress, int height, int scroll) {
+                    int actionBarHeight = getActivity().getActionBar().getHeight();
+                    height -= actionBarHeight;
 
-                progress = (float) scroll / height;
-                if (progress > 1f) progress = 1f;
+                    progress = (float) scroll / height;
+                    if (progress > 1f) progress = 1f;
 
-                progress = (1 - (float) Math.cos(progress * Math.PI)) * 0.5f;
-                int alphaOfActionbarBg = (int) (255 * progress);
-                ((PhotographerHomePage) getActivity())
-                        .getFadingActionBarHelper()
-                        .setActionBarAlpha(alphaOfActionbarBg);
+                    progress = (1 - (float) Math.cos(progress * Math.PI)) * 0.5f;
+                    int alphaOfActionbarBg = (int) (255 * progress);
+                    ((PhotographerHomePage) getActivity())
+                            .getFadingActionBarHelper()
+                            .setActionBarAlpha(alphaOfActionbarBg);
 
-                int nameGroupHeight = mNameGroupOnHeader.getHeight();
-                int remainScrollSpace = height - scroll;
-                Log.i(TAG, "scroll:" + scroll + "height:" + height + ", remain:" + remainScrollSpace);
-                if((remainScrollSpace >=0) && (remainScrollSpace <= nameGroupHeight)) {
-                    float nameAlphaProgress = (float)(nameGroupHeight - remainScrollSpace) / nameGroupHeight;
-                    Log.i(TAG, "nameAlphaProgress:" + nameAlphaProgress);
-                    nameAlphaProgress = (1 - (float) Math.cos(nameAlphaProgress * Math.PI)) * 0.5f;
-                    mNameOnActionBar.setAlpha(nameAlphaProgress);
-                    mNameGroupOnHeader.setAlpha(1 - nameAlphaProgress);
-                } else {
-                    mNameOnActionBar.setAlpha(0);
-                    mNameGroupOnHeader.setAlpha(1);
+                    int nameGroupHeight = mNameGroupOnHeader.getHeight();
+                    int remainScrollSpace = height - scroll;
+                    Log.i(TAG, "scroll:" + scroll + "height:" + height + ", remain:" + remainScrollSpace);
+                    if((remainScrollSpace >=0) && (remainScrollSpace <= nameGroupHeight)) {
+                        float nameAlphaProgress = (float)(nameGroupHeight - remainScrollSpace) / nameGroupHeight;
+                        Log.i(TAG, "nameAlphaProgress:" + nameAlphaProgress);
+                        nameAlphaProgress = (1 - (float) Math.cos(nameAlphaProgress * Math.PI)) * 0.5f;
+                        mNameOnActionBar.setAlpha(nameAlphaProgress);
+                        mNameGroupOnHeader.setAlpha(1 - nameAlphaProgress);
+                    } else {
+                        mNameOnActionBar.setAlpha(0);
+                        mNameGroupOnHeader.setAlpha(1);
+                    }
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

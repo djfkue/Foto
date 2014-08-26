@@ -53,6 +53,11 @@
             </intent-filter>
             -->
         </activity>
+        <activity
+            android:theme="@style/PhotographerHomeTheme"
+            android:name=".ui.PhotographerHomePage2"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

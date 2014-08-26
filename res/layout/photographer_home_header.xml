@@ -48,6 +48,14 @@
             android:src="@drawable/follow"
             android:background="@drawable/photographer_action_bg"
             android:contentDescription="@null" />
+        <ImageButton android:id="@+id/btn_contact"
+            android:layout_width="?android:actionBarSize"
+            android:layout_height="?android:actionBarSize"
+            android:layout_toLeftOf="@id/btn_follow"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_action_call"
+            android:background="@drawable/photographer_action_bg"
+            android:contentDescription="@null" />
     </RelativeLayout>
     <View
         android:id="@android:id/title"

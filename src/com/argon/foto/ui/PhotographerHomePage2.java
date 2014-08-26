@@ -2,23 +2,21 @@ package com.argon.foto.ui;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager.LayoutParams;
-import android.util.Log;
 import android.view.View;
 
 import com.achep.header2actionbar.FadingActionBarHelper;
 import com.argon.foto.R;
 
-public class PhotographerHomePage extends FragmentActivity {
+public class PhotographerHomePage2 extends FragmentActivity {
     private FadingActionBarHelper mFadingActionBarHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("SEAN", "PhotographerHomePage onCreate ....");
+
         setContentView(R.layout.photographer_home_activity);
         setupActionbar();
 
@@ -26,8 +24,8 @@ public class PhotographerHomePage extends FragmentActivity {
                 getResources().getDrawable(R.drawable.actionbar_bg));
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PhotographerHomeFragment())
+            getFragmentManager().beginTransaction()
+                    .add(R.id.container, new PhotographerHomeFragment2())
                     .commit();
         }
     }
@@ -50,7 +48,7 @@ public class PhotographerHomePage extends FragmentActivity {
         v.findViewById(R.id.btn_share).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PhotographerHomePage.this, PhotographerHomePage2.class));
+                // TODO: to be implemented
             }
         });
     }

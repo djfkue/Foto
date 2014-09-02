@@ -4,15 +4,16 @@
     xmlns:foo="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp">
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/album_item_bg">
 
     <com.argon.foto.widget.FotoImageView
         android:id="@+id/foto_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="#CCCCCC"
-        android:background="#CCCCCC"
+        android:src="#CCC"
+        android:background="#CCC"
         foo:ratio="1.0"
         foo:maxRatio="1.4"/>
 
@@ -25,5 +26,6 @@
         android:gravity="center"
         android:textColor="#333"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+        android:background="@android:color/white"
         foo:customFont="NotoSansHantThin.otf"/>
 </RelativeLayout>

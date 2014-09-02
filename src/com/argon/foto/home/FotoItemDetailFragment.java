@@ -8,11 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.TextView;
+
 import com.argon.foto.R;
 
-import com.argon.foto.home.dummy.DummyContent;
 import com.argon.foto.ui.PhotographerHomePage;
 import com.argon.foto.util.ImageFetcher;
 import com.argon.foto.util.ImageWorker;
@@ -28,10 +29,13 @@ public class FotoItemDetailFragment extends Fragment {
 
     private static final String IMAGE_DATA_EXTRA = "extra_image_data";
     private static final String IMAGE_THUMB_DATA_EXTRA = "extra_thumb_image_data";
+    private static final String RUN_ENTER_ANIM = "run_enter_animation";
     private String mImageUrl;
     private String mThumbUrl;
     private ImageView mImageView;
     private ImageFetcher mImageFetcher;
+
+    private boolean mShouldRunAnim = false;
 
     /**
      * Factory method to generate a new instance of the fragment given an image number.
@@ -39,13 +43,14 @@ public class FotoItemDetailFragment extends Fragment {
      * @param imageUrl The image url to load
      * @return A new instance of ImageDetailFragment with imageNum extras
      */
-    public static FotoItemDetailFragment newInstance(String imageUrl, String thumbUrl) {
+    public static FotoItemDetailFragment newInstance(String imageUrl, String thumbUrl, boolean shouldRunAnim) {
         final FotoItemDetailFragment f = new FotoItemDetailFragment();
 
         Log.e("SD_TRACE", "newInstance... ... ... imageUrl: " + imageUrl);
         final Bundle args = new Bundle();
         args.putString(IMAGE_DATA_EXTRA, imageUrl);
         args.putString(IMAGE_THUMB_DATA_EXTRA, thumbUrl);
+        args.putBoolean(RUN_ENTER_ANIM, shouldRunAnim);
         f.setArguments(args);
 
         return f;
@@ -69,6 +74,8 @@ public class FotoItemDetailFragment extends Fragment {
         }
         mImageUrl = getArguments() != null ? getArguments().getString(IMAGE_DATA_EXTRA) : null;
         mThumbUrl = getArguments() != null ? getArguments().getString(IMAGE_THUMB_DATA_EXTRA) : null;
+        mShouldRunAnim = getArguments() != null ? getArguments().getBoolean(RUN_ENTER_ANIM) : false;
+        Log.e("SD_TRACE", "should run anim: " + mShouldRunAnim);
     }
 
     @Override
@@ -93,7 +100,6 @@ public class FotoItemDetailFragment extends Fragment {
 
             //mImageView.setImageBitmap(mImageFetcher.getImageCache().getBitmapFromDiskCache(mThumbUrl));
             Log.e("SD_TRACE", "loadImage... ... ... mImageUrl: " + mImageUrl);
-            mImageFetcher.setImageFadeIn(true);
             mImageFetcher.loadImage(mImageUrl, mImageView);
         }
 
@@ -113,7 +119,12 @@ public class FotoItemDetailFragment extends Fragment {
 
                     Log.e("SD_TRACE", "screenLocation: " + screenLocation[0] + ", " + screenLocation[1]);
                     Log.e("SD_TRACE", "screenHeight: " + mImageView.getHeight());
-
+                    if (mShouldRunAnim) {
+                        runEnterAnimation();
+                    } else {
+                        Log.e("SD_TRACE", "set visible ................");
+                        getActivity().findViewById(R.id.foto_info_container).setVisibility(View.VISIBLE);
+                    }
                     return true;
                 }
             });
@@ -121,6 +132,48 @@ public class FotoItemDetailFragment extends Fragment {
         return rootView;
     }
 
+    public void runEnterAnimation() {
+        Animation imageInAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.foto_in);
+
+        imageInAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Animation fotoInfoAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.fotographer_in);
+                fotoInfoAnim.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        getActivity().findViewById(R.id.foto_info_container).setVisibility(View.VISIBLE);
+                        mShouldRunAnim = false;
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                getActivity().findViewById(R.id.foto_info_container).startAnimation(fotoInfoAnim);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        mImageView.startAnimation(imageInAnim);
+
+
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -136,4 +189,12 @@ public class FotoItemDetailFragment extends Fragment {
             mImageView.setImageDrawable(null);
         }
     }
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        if (!mShouldRunAnim) {
+//            getActivity().findViewById(R.id.foto_info_container).setVisibility(View.VISIBLE);
+//        }
+//    }
 }

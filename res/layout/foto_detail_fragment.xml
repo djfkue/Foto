@@ -19,7 +19,7 @@
     xmlns:foo="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#333333">
+    android:background="#CCC">
 
     <com.argon.foto.widget.RecyclingImageView
         android:id="@+id/imageView"
@@ -28,62 +28,69 @@
         android:layout_centerInParent="true"
         android:contentDescription="@string/app_name"/>
 
-    <LinearLayout
-        android:id="@+id/action_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#C000"
-        android:orientation="horizontal"
-        android:weightSum="1.0">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="0.3"
-            android:gravity="center"
-            android:text="info"
-            android:textAppearance="@android:style/TextAppearance.Holo.Small"
-            android:textColor="@android:color/darker_gray"/>
-        <com.argon.foto.widget.FotoTextView
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="0.4"
-            android:gravity="center"
-            android:text="share"
-            android:textAppearance="@android:style/TextAppearance.Holo.Small"
-            android:textColor="@android:color/darker_gray"/>
-        <com.argon.foto.widget.FotoTextView
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="0.3"
-            android:gravity="center"
-            android:text="favorite"
-            android:textAppearance="@android:style/TextAppearance.Holo.Small"
-            android:textColor="@android:color/darker_gray"/>
-    </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/foto_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/action_container"
-        android:orientation="vertical"
-        android:background="@drawable/foto_detail_name_bg"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
-        <com.argon.foto.widget.FotoTextView
-            android:id="@+id/foto_grapher"
+        android:layout_alignParentBottom="true"
+        android:visibility="invisible">
+        <LinearLayout
+            android:id="@+id/action_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:text="再見陳生-chihato"
-            android:textSize="30sp"
-            android:textColor="@android:color/white"
-            foo:customFont="NotoSansHantThin.otf"/>
-        <View
+            android:layout_alignParentBottom="true"
+            android:background="#C000"
+            android:orientation="horizontal"
+            android:weightSum="1.0">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="0.3"
+                android:gravity="center"
+                android:text="info"
+                android:textAppearance="@android:style/TextAppearance.Holo.Small"
+                android:textColor="@android:color/darker_gray"/>
+            <com.argon.foto.widget.FotoTextView
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="0.4"
+                android:gravity="center"
+                android:text="share"
+                android:textAppearance="@android:style/TextAppearance.Holo.Small"
+                android:textColor="@android:color/darker_gray"/>
+            <com.argon.foto.widget.FotoTextView
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="0.3"
+                android:gravity="center"
+                android:text="favorite"
+                android:textAppearance="@android:style/TextAppearance.Holo.Small"
+                android:textColor="@android:color/darker_gray"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/foto_grapher_container"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@android:color/darker_gray"/>
+            android:layout_height="wrap_content"
+            android:layout_above="@id/action_container"
+            android:orientation="vertical"
+            android:background="@drawable/foto_detail_name_bg"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+            <com.argon.foto.widget.FotoTextView
+                android:id="@+id/foto_grapher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="再見陳生-chihato"
+                android:textSize="30sp"
+                android:textColor="@android:color/white"
+                foo:customFont="NotoSansHantThin.otf"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@android:color/darker_gray"/>
+        </LinearLayout>
+    </RelativeLayout>
 
-    </LinearLayout>
 </RelativeLayout>

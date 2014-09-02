@@ -47,6 +47,8 @@ public class FotoItemDetailActivity extends FragmentActivity implements View.OnC
     private ViewPager mPager;
     private ImagePagerAdapter mAdapter;
 
+    private boolean mShouldRunEnterAnimation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -73,14 +75,14 @@ public class FotoItemDetailActivity extends FragmentActivity implements View.OnC
         // The ImageFetcher takes care of loading images into our ImageView children asynchronously
         mImageFetcher = new ImageFetcher(this, longest);
         mImageFetcher.addImageCache(getFragmentManager(), cacheParams);
-        mImageFetcher.setImageFadeIn(true);
+        mImageFetcher.setImageFadeIn(false);
 
         // Set up ViewPager and backing adapter
         mAdapter = new ImagePagerAdapter(getSupportFragmentManager(), Images.imageUrls.length);
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
         mPager.setPageMargin(16);
-        mPager.setOffscreenPageLimit(2);
+        mPager.setOffscreenPageLimit(1);
 
         // Set up activity to go full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -137,8 +139,8 @@ public class FotoItemDetailActivity extends FragmentActivity implements View.OnC
             if (extraCurrentItem != -1) {
                 mPager.setCurrentItem(extraCurrentItem);
             }
+            mShouldRunEnterAnimation = true;
         }
-
     }
 
     /**
@@ -214,7 +216,9 @@ public class FotoItemDetailActivity extends FragmentActivity implements View.OnC
 
         @Override
         public Fragment getItem(int position) {
-            return FotoItemDetailFragment.newInstance(Images.imageThumbUrls[position], Images.imageThumbUrls[position]);
+            Fragment fragment = FotoItemDetailFragment.newInstance(Images.imageThumbUrls[position], Images.imageThumbUrls[position], mShouldRunEnterAnimation);
+            mShouldRunEnterAnimation = false;
+            return fragment;
         }
     }
 

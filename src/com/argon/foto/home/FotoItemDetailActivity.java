@@ -2,9 +2,7 @@ package com.argon.foto.home;
 
 import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.app.Activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -12,11 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.argon.foto.BuildConfig;
@@ -48,6 +43,7 @@ public class FotoItemDetailActivity extends FragmentActivity implements View.OnC
     private ImagePagerAdapter mAdapter;
 
     private boolean mShouldRunEnterAnimation;
+    private int mExtraCurrentItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,9 +131,9 @@ public class FotoItemDetailActivity extends FragmentActivity implements View.OnC
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            final int extraCurrentItem = getIntent().getIntExtra(EXTRA_IMAGE, -1);
-            if (extraCurrentItem != -1) {
-                mPager.setCurrentItem(extraCurrentItem);
+            mExtraCurrentItem = getIntent().getIntExtra(EXTRA_IMAGE, -1);
+            if (mExtraCurrentItem != -1) {
+                mPager.setCurrentItem(mExtraCurrentItem);
             }
             mShouldRunEnterAnimation = true;
         }
@@ -216,8 +212,13 @@ public class FotoItemDetailActivity extends FragmentActivity implements View.OnC
 
         @Override
         public Fragment getItem(int position) {
-            Fragment fragment = FotoItemDetailFragment.newInstance(Images.imageThumbUrls[position], Images.imageThumbUrls[position], mShouldRunEnterAnimation);
-            mShouldRunEnterAnimation = false;
+            Fragment fragment;
+            if (position == mExtraCurrentItem) {
+                fragment = FotoItemDetailFragment.newInstance(Images.imageThumbUrls[position], Images.imageThumbUrls[position], mShouldRunEnterAnimation);
+                mShouldRunEnterAnimation = false;
+            } else {
+                fragment = FotoItemDetailFragment.newInstance(Images.imageThumbUrls[position], Images.imageThumbUrls[position], false);
+            }
             return fragment;
         }
     }

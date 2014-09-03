@@ -81,7 +81,7 @@ public class FotoItemDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.foto_detail_fragment, container, false);
+        final View rootView = inflater.inflate(R.layout.foto_detail_fragment, container, false);
 
         mImageView = (ImageView) rootView.findViewById(R.id.imageView);
         mImageFetcher = ((FotoItemDetailActivity) getActivity()).getImageFetcher();
@@ -123,7 +123,7 @@ public class FotoItemDetailFragment extends Fragment {
                         runEnterAnimation();
                     } else {
                         Log.e("SD_TRACE", "set visible ................");
-                        getActivity().findViewById(R.id.foto_info_container).setVisibility(View.VISIBLE);
+                        rootView.findViewById(R.id.foto_info_container).setVisibility(View.VISIBLE);
                     }
                     return true;
                 }
@@ -152,7 +152,7 @@ public class FotoItemDetailFragment extends Fragment {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        getActivity().findViewById(R.id.foto_info_container).setVisibility(View.VISIBLE);
+                        getView().findViewById(R.id.foto_info_container).setVisibility(View.VISIBLE);
                         mShouldRunAnim = false;
                     }
 
@@ -161,7 +161,7 @@ public class FotoItemDetailFragment extends Fragment {
 
                     }
                 });
-                getActivity().findViewById(R.id.foto_info_container).startAnimation(fotoInfoAnim);
+                getView().findViewById(R.id.foto_info_container).startAnimation(fotoInfoAnim);
             }
 
             @Override
@@ -189,12 +189,12 @@ public class FotoItemDetailFragment extends Fragment {
             mImageView.setImageDrawable(null);
         }
     }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        if (!mShouldRunAnim) {
-//            getActivity().findViewById(R.id.foto_info_container).setVisibility(View.VISIBLE);
-//        }
-//    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!mShouldRunAnim) {
+            getView().findViewById(R.id.foto_info_container).setVisibility(View.VISIBLE);
+        }
+    }
 }

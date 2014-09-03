@@ -1,7 +1,6 @@
 package com.argon.foto.cover;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,11 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 
 import com.argon.foto.R;
 import com.argon.foto.home.FotoItemListActivity;
-import com.argon.foto.home.HomeActivity;
 
 public class CoverActivity extends Activity {
 
@@ -65,10 +62,7 @@ public class CoverActivity extends Activity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivity(), FotoItemListActivity.class);
-                    int orientation = getResources().getConfiguration().orientation;
-
                     startActivity(intent);
-
                     // Override transitions: we don't want the normal window animation in addition
                     // to our custom one
                     getActivity().overridePendingTransition(0, 0);

@@ -40,7 +40,7 @@
         <item name="android:actionBarStyle">@style/FotoDetailActionBar</item>
     </style>
 
-    <style name="FotoDetailActionBar" parent="android:Widget.Holo.ActionBar">
+    <style name="FotoDetailActionBar" parent="android:Widget.Holo.Light.ActionBar">
         <item name="android:background">@drawable/foto_list_item_header_bg</item>"
     </style>
 

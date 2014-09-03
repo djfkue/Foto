@@ -19,7 +19,7 @@
     xmlns:foo="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CCC">
+    android:background="#FFF">
 
     <com.argon.foto.widget.RecyclingImageView
         android:id="@+id/imageView"
@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="#C000"
+            android:background="#FFF"
             android:orientation="horizontal"
             android:weightSum="1.0">
             <TextView
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/action_container"
             android:orientation="vertical"
-            android:background="@drawable/foto_detail_name_bg"
+            android:background="#FFF"
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
             <com.argon.foto.widget.FotoTextView
@@ -84,7 +84,7 @@
                 android:paddingRight="16dp"
                 android:text="再見陳生-chihato"
                 android:textSize="30sp"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 foo:customFont="NotoSansHantThin.otf"/>
             <View
                 android:layout_width="match_parent"

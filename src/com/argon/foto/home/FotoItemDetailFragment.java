@@ -143,25 +143,7 @@ public class FotoItemDetailFragment extends Fragment {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                Animation fotoInfoAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.fotographer_in);
-                fotoInfoAnim.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
 
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        getView().findViewById(R.id.foto_info_container).setVisibility(View.VISIBLE);
-                        mShouldRunAnim = false;
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
-                getView().findViewById(R.id.foto_info_container).startAnimation(fotoInfoAnim);
             }
 
             @Override
@@ -172,7 +154,25 @@ public class FotoItemDetailFragment extends Fragment {
 
         mImageView.startAnimation(imageInAnim);
 
+        Animation fotoInfoAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.fotographer_in);
+        fotoInfoAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
 
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                getView().findViewById(R.id.foto_info_container).setVisibility(View.VISIBLE);
+                mShouldRunAnim = false;
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        getView().findViewById(R.id.foto_info_container).startAnimation(fotoInfoAnim);
     }
 
     @Override

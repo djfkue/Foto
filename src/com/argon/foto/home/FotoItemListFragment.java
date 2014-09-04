@@ -1,5 +1,7 @@
 package com.argon.foto.home;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ListFragment;
@@ -19,6 +21,7 @@ import android.util.Log;
 import android.util.LruCache;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -37,6 +40,7 @@ import com.argon.foto.util.ImageFetcher;
 import com.argon.foto.util.ImageUtil;
 import com.argon.foto.util.Utils;
 import com.argon.foto.widget.FotoImageView;
+import com.argon.foto.widget.MaskView;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -79,6 +83,10 @@ public class FotoItemListFragment extends ListFragment {
     private int mLastFirstVisibleItem;
     private int mLastFistVisibleItemTop;
     private boolean mIsScrollingUp;
+    private MaskView mMaskView;
+    private Intent mCurrentFotoIntent;
+    private float mCurrentPressX;
+    private float mCurrentPressY;
 
     /**
      * A callback interface that all activities containing this fragment must
@@ -199,6 +207,8 @@ public class FotoItemListFragment extends ListFragment {
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
+
+        mMaskView = (MaskView) view.findViewById(R.id.mask_view);
     }
 
     @Override
@@ -216,6 +226,8 @@ public class FotoItemListFragment extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
+        mMaskView.setVisibility(View.INVISIBLE);
+        mMaskView.setRadius(0);
         mImageFetcher.setExitTasksEarly(false);
         mImageAdatper.notifyDataSetChanged();
     }
@@ -254,24 +266,64 @@ public class FotoItemListFragment extends ListFragment {
     public void onListItemClick(ListView listView, View view, int position, long id) {
         super.onListItemClick(listView, view, position, id);
 
-        final Intent i = new Intent(getActivity(), FotoItemDetailActivity.class);
-        i.putExtra(FotoItemDetailActivity.EXTRA_IMAGE, (int) id);
+        mCurrentFotoIntent = new Intent(getActivity(), FotoItemDetailActivity.class);
+        mCurrentFotoIntent.putExtra(FotoItemDetailActivity.EXTRA_IMAGE, (int) id);
 
         int[] screenLocation = new int[2];
         view.getLocationOnScreen(screenLocation);
         int orientation = getResources().getConfiguration().orientation;
 
-        i.putExtra(PACKAGE + ".orientation", orientation).
+        mCurrentFotoIntent.putExtra(PACKAGE + ".orientation", orientation).
                 putExtra(PACKAGE + ".left", screenLocation[0]).
                 putExtra(PACKAGE + ".top", screenLocation[1]).
                 putExtra(PACKAGE + ".width", view.getWidth()).
                 putExtra(PACKAGE + ".height", view.getHeight());
 
-        getActivity().startActivityForResult(i, FotoItemListActivity.CURRENT_FOTO);
+        runMaskAnimation();
 
-        // Override transitions: we don't want the normal window animation in addition
-        // to our custom one
-        getActivity().overridePendingTransition(0, 0);
+    }
+
+    private void runMaskAnimation() {
+        mMaskView.setVisibility(View.VISIBLE);
+        mMaskView.setCenter(mCurrentPressX, mCurrentPressY);
+        getActivity().getActionBar().hide();
+        mMaskView.animate().alpha(1.0f).withLayer().withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                ObjectAnimator maskAnimator = ObjectAnimator.ofFloat(mMaskView, "radius", 32.0f, mMaskView.getHeight());
+                maskAnimator.setDuration(500);
+                maskAnimator.start();
+                maskAnimator.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+
+                        getActivity().startActivityForResult(mCurrentFotoIntent, FotoItemListActivity.CURRENT_FOTO);
+
+                        // Override transitions: we don't want the normal window animation in addition
+                        // to our custom one
+                        getActivity().overridePendingTransition(0, 0);
+//                        mMaskView.setVisibility(View.GONE);
+//                        mMaskView.setRadius(0);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {
+
+                    }
+                });
+            }
+        });
+
     }
 
     @Override
@@ -339,6 +391,16 @@ public class FotoItemListFragment extends ListFragment {
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 itemView = (ViewGroup)inflater.inflate(R.layout.foto_list_item, container, false);
                 imageView = (ImageView)itemView.findViewById(R.id.foto_image);
+                imageView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                            mCurrentPressX = motionEvent.getRawX();
+                            mCurrentPressY = motionEvent.getRawY();
+                        }
+                        return false;
+                    }
+                });
                 holder.photo = imageView;
                 itemView.setTag(holder);
             } else {

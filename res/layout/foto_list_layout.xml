@@ -1,15 +1,26 @@
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/foto_item_list"
-    android:name="com.argon.foto.home.FotoItemListFragment"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#CCC"
-    android:divider="#CCC"
-    android:dividerHeight="16dp"
-    android:hapticFeedbackEnabled="false"
-    android:animationCache="true"
-    android:scrollingCache="true"
-    android:requiresFadingEdge="none"
-    android:scrollbars="none"
-    />
+    android:layout_height="match_parent">
+    <ListView
+        android:id="@android:id/list"
+        android:name="com.argon.foto.home.FotoItemListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#CCC"
+        android:divider="#CCC"
+        android:dividerHeight="16dp"
+        android:hapticFeedbackEnabled="false"
+        android:animationCache="true"
+        android:scrollingCache="true"
+        android:requiresFadingEdge="none"
+        android:scrollbars="none"
+        />
+    <com.argon.foto.widget.MaskView
+        android:id="@+id/mask_view"
+        android:background="#0000"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:maskColor="@android:color/white"/>
+</FrameLayout>

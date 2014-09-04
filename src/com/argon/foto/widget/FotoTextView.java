@@ -39,13 +39,14 @@ public class FotoTextView extends TextView {
 
     public boolean setCustomFont(Context ctx, String asset) {
         Typeface tf = null;
-        try {
-            tf = Typeface.createFromAsset(ctx.getAssets(), asset);
-        } catch (Exception e) {
-            Log.e(TAG, "Could not get typeface: "+e.getMessage());
-            return false;
-        }
+//        try {
+//            tf = Typeface.createFromAsset(ctx.getAssets(), asset);
+//        } catch (Exception e) {
+//            Log.e(TAG, "Could not get typeface: "+e.getMessage());
+//            return false;
+//        }
 
+        tf = TypefaceLoader.getInstance().getTypeface(ctx, asset);
         setTypeface(tf);
         return true;
     }

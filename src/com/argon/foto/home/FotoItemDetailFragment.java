@@ -133,46 +133,23 @@ public class FotoItemDetailFragment extends Fragment {
     }
 
     public void runEnterAnimation() {
-        Animation imageInAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.foto_in);
 
-        imageInAnim.setAnimationListener(new Animation.AnimationListener() {
+        mImageView.setTranslationX(getView().getWidth());
+
+        final View fotoInfoContainer = getView().findViewById(R.id.foto_info_container);
+        fotoInfoContainer.setTranslationY(getView().getHeight());
+        fotoInfoContainer.setVisibility(View.VISIBLE);
+
+        mImageView.animate().translationX(0).alpha(1).setDuration(500);
+        fotoInfoContainer.animate().translationY(getView().getHeight() - fotoInfoContainer.getHeight()).alpha(1).
+                setDuration(500).withEndAction(new Runnable() {
             @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        mImageView.startAnimation(imageInAnim);
-
-        Animation fotoInfoAnim = AnimationUtils.loadAnimation(getActivity(), R.anim.fotographer_in);
-        fotoInfoAnim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                getView().findViewById(R.id.foto_info_container).setVisibility(View.VISIBLE);
+            public void run() {
+                fotoInfoContainer.setVisibility(View.VISIBLE);
                 mShouldRunAnim = false;
             }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
         });
-        getView().findViewById(R.id.foto_info_container).startAnimation(fotoInfoAnim);
+
     }
 
     @Override

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
-    android:background="#ffffff">
+    android:background="@drawable/album_item_bg">
 
     <com.argon.foto.widget.FotoImageView
         android:id="@+id/foto_image"
@@ -28,7 +28,6 @@
         android:paddingRight="16dp"
         android:textColor="#000"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
-        android:background="@android:color/white"
         foo:customFont="NotoSansHantThin.otf"/>
     <ImageView
         android:id="@+id/foto_share"

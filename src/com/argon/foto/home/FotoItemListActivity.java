@@ -6,8 +6,10 @@ import android.app.Activity;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
 import android.view.ViewManager;
 import android.view.WindowManager;
+import android.widget.ListView;
 
 import com.argon.foto.R;
 
@@ -89,12 +91,16 @@ public class FotoItemListActivity extends Activity
         if (requestCode == CURRENT_FOTO && data != null) {
             final int currentFoto = data.getIntExtra(EXTRA_CURRENT_FOTO, 0);
             Log.e("SD_TRACE", "current photo: " + currentFoto);
+
+            final ListView listView = ((FotoItemListFragment) getFragmentManager()
+                    .findFragmentById(R.id.fotoitem_list)).getListView();
+            listView.setAlpha(0);
             ((FotoItemListFragment) getFragmentManager()
                     .findFragmentById(R.id.fotoitem_list)).getListView().post(new Runnable() {
                 @Override
                 public void run() {
-                    ((FotoItemListFragment) getFragmentManager()
-                            .findFragmentById(R.id.fotoitem_list)).getListView().setSelection(currentFoto + 1);
+                    listView.setSelection(currentFoto + 1);
+                    listView.animate().alpha(1).setDuration(500);
                     getActionBar().hide();
                 }
             });

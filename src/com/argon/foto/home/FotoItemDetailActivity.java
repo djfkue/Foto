@@ -213,11 +213,27 @@ public class FotoItemDetailActivity extends FragmentActivity implements View.OnC
         @Override
         public Fragment getItem(int position) {
             Fragment fragment;
+
+            boolean systemUILowProfile = false;
+
+            final int vis = mPager.getSystemUiVisibility();
+            if ((vis & View.SYSTEM_UI_FLAG_LOW_PROFILE) != 0) {
+                systemUILowProfile = true;
+            } else {
+                systemUILowProfile = false;
+            }
+
             if (position == mExtraCurrentItem) {
-                fragment = FotoItemDetailFragment.newInstance(Images.imageThumbUrls[position], Images.imageThumbUrls[position], mShouldRunEnterAnimation);
+                fragment = FotoItemDetailFragment.newInstance(Images.imageThumbUrls[position],
+                        Images.imageThumbUrls[position],
+                        mShouldRunEnterAnimation,
+                        systemUILowProfile);
                 mShouldRunEnterAnimation = false;
             } else {
-                fragment = FotoItemDetailFragment.newInstance(Images.imageThumbUrls[position], Images.imageThumbUrls[position], false);
+                fragment = FotoItemDetailFragment.newInstance(Images.imageThumbUrls[position],
+                        Images.imageThumbUrls[position],
+                        false,
+                        systemUILowProfile);
             }
             return fragment;
         }
@@ -225,9 +241,29 @@ public class FotoItemDetailActivity extends FragmentActivity implements View.OnC
 
     @Override
     public void onBackPressed () {
-        Intent result = new Intent();
-        result.putExtra(FotoItemListActivity.EXTRA_CURRENT_FOTO, mPager.getCurrentItem());
-        setResult(RESULT_OK, result);
-        super.onBackPressed();
+
+        FotoItemDetailFragment fragment = (FotoItemDetailFragment) mAdapter.instantiateItem(mPager, mPager.getCurrentItem());
+
+        fragment.runExitAnimation(new Runnable() {
+            @Override
+            public void run() {
+                Intent result = new Intent();
+                result.putExtra(FotoItemListActivity.EXTRA_CURRENT_FOTO, mPager.getCurrentItem());
+                setResult(RESULT_OK, result);
+                finish();
+                overridePendingTransition(0, 0);
+            }
+        });
+//
+//        mPager.animate().alpha(0).withEndAction(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent result = new Intent();
+//                result.putExtra(FotoItemListActivity.EXTRA_CURRENT_FOTO, mPager.getCurrentItem());
+//                setResult(RESULT_OK, result);
+//                overridePendingTransition(0, 0);
+//                finish();
+//            }
+//        });
     }
 }

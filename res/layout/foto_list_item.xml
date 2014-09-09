@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
-    android:background="@drawable/album_item_bg">
+    android:background="#ffffff">
 
     <com.argon.foto.widget.FotoImageView
         android:id="@+id/foto_image"
@@ -19,13 +19,23 @@
 
     <com.argon.foto.widget.FotoTextView
         android:id="@+id/foto_grapher_name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="?android:attr/actionBarSize"
         android:layout_below="@id/foto_image"
         android:text="再見陳生-chihato"
-        android:gravity="center"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:textColor="#333"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
         android:background="@android:color/white"
         foo:customFont="NotoSansHantThin.otf"/>
+    <ImageView
+        android:layout_width="?android:attr/actionBarSize"
+        android:layout_height="?android:attr/actionBarSize"
+        android:layout_below="@id/foto_image"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/ic_menu_share"
+        android:scaleType="centerInside"/>
 </RelativeLayout>

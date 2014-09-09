@@ -18,6 +18,23 @@
         foo:maxRatio="1.4"/>
 
     <com.argon.foto.widget.FotoTextView
+        android:id="@+id/foto_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/foto_image"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/image_count_bg"
+        android:text="10"
+        android:gravity="center"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:textColor="#FFF"
+        android:textSize="14sp"
+        foo:customFont="NotoSansHantThin.otf"/>
+
+    <com.argon.foto.widget.FotoTextView
         android:id="@+id/foto_grapher_name"
         android:layout_width="wrap_content"
         android:layout_height="?android:attr/actionBarSize"
@@ -27,24 +44,36 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:textColor="#000"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+        android:textSize="14sp"
         foo:customFont="NotoSansHantThin.otf"/>
-    <ImageView
-        android:id="@+id/foto_share"
-        android:layout_width="?android:attr/actionBarSize"
+    <com.argon.foto.widget.FotoTextView
+        android:id="@+id/foto_favor_count"
+        android:layout_width="wrap_content"
         android:layout_height="?android:attr/actionBarSize"
         android:layout_below="@id/foto_image"
         android:layout_alignParentRight="true"
         android:layout_marginRight="16dp"
-        android:src="@drawable/ic_menu_share"
-        android:scaleType="center"/>
-
+        android:text="+50"
+        android:gravity="center"
+        android:paddingLeft="0dp"
+        android:paddingRight="12dp"
+        android:textColor="#000"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"/>
     <ImageView
         android:id="@+id/foto_like"
         android:layout_width="?android:attr/actionBarSize"
         android:layout_height="?android:attr/actionBarSize"
         android:layout_below="@id/foto_image"
-        android:layout_toLeftOf="@id/foto_share"
+        android:layout_toLeftOf="@id/foto_favor_count"
         android:src="@drawable/ic_menu_like"
+        android:scaleType="center"/>
+
+    <ImageView
+        android:id="@+id/foto_share"
+        android:layout_width="?android:attr/actionBarSize"
+        android:layout_height="?android:attr/actionBarSize"
+        android:layout_below="@id/foto_image"
+        android:layout_toLeftOf="@id/foto_like"
+        android:src="@drawable/ic_menu_share"
         android:scaleType="center"/>
 </RelativeLayout>

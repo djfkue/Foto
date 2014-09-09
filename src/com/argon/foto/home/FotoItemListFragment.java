@@ -1,6 +1,7 @@
 package com.argon.foto.home;
 
 import android.animation.Animator;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -24,7 +25,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
@@ -284,46 +289,50 @@ public class FotoItemListFragment extends ListFragment {
     }
 
     private void runMaskAnimation() {
+        mMaskView.setAlpha(0);
         mMaskView.setVisibility(View.VISIBLE);
         mMaskView.setCenter(mCurrentPressX, mCurrentPressY);
+
         getActivity().getActionBar().hide();
-        mMaskView.animate().alpha(1.0f).withLayer().withEndAction(new Runnable() {
+        ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(mMaskView, "alpha", 0, 1);
+        alphaAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        alphaAnimator.setDuration(500);
+        ObjectAnimator maskAnimator = ObjectAnimator.ofFloat(mMaskView, "radius", 32.0f, mMaskView.getHeight());
+        maskAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        maskAnimator.setDuration(500);
+
+        AnimatorSet maskAnim = new AnimatorSet();
+        maskAnim.play(alphaAnimator).with(maskAnimator);
+
+        maskAnim.start();
+        maskAnim.addListener(new Animator.AnimatorListener() {
             @Override
-            public void run() {
-                ObjectAnimator maskAnimator = ObjectAnimator.ofFloat(mMaskView, "radius", 32.0f, mMaskView.getHeight());
-                maskAnimator.setDuration(500);
-                maskAnimator.start();
-                maskAnimator.addListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animator) {
+            public void onAnimationStart(Animator animator) {
 
-                    }
+            }
 
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
+            @Override
+            public void onAnimationEnd(Animator animator) {
 
-                        getActivity().startActivityForResult(mCurrentFotoIntent, FotoItemListActivity.CURRENT_FOTO);
+                getActivity().startActivityForResult(mCurrentFotoIntent, FotoItemListActivity.CURRENT_FOTO);
 
-                        // Override transitions: we don't want the normal window animation in addition
-                        // to our custom one
-                        getActivity().overridePendingTransition(0, 0);
+                // Override transitions: we don't want the normal window animation in addition
+                // to our custom one
+                getActivity().overridePendingTransition(0, 0);
 //                        mMaskView.setVisibility(View.GONE);
 //                        mMaskView.setRadius(0);
-                    }
+            }
 
-                    @Override
-                    public void onAnimationCancel(Animator animator) {
+            @Override
+            public void onAnimationCancel(Animator animator) {
 
-                    }
+            }
 
-                    @Override
-                    public void onAnimationRepeat(Animator animator) {
+            @Override
+            public void onAnimationRepeat(Animator animator) {
 
-                    }
-                });
             }
         });
-
     }
 
     @Override
